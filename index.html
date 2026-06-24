@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan O'Connell — Product Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Open+Sans:wght@300;400;500&display=block" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <div id="content">
+    <div id="site-header">
+      <div class="h-name">Dan O'Connell</div>
+      <div class="h-meta">Product Engineer &nbsp;·&nbsp; 15+ years &nbsp;·&nbsp; Frontend &amp; Design</div>
+    </div>
+
+    <!-- Intro — content injected from --intro.md via JS -->
+    <div id="hero-text"></div>
+
+    <!-- Revealed sections -->
+    <div id="feed"></div>
+  </div>
+
+  <!-- Prompt — always at bottom -->
+  <div id="prompt-section">
+    <div class="prompt-row">
+      <span class="prompt-chr">$</span>
+      <input id="cmd-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command…">
+    </div>
+    <div class="prompt-sugs" id="prompt-sugs">
+      <span class="arrow">→</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="content.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
