@@ -8,13 +8,14 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #f9f9f9;
-  color: #111;
+  font-family: 'Courier New', Courier, monospace;
+  background: #f6f1eb;
+  color: #1e1a16;
   height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: background 0.5s ease;
 }
 
 /* ─────────────────────────── HEADER ─────────────────────────── */
@@ -25,13 +26,28 @@ body {
   justify-content: space-between;
   padding: 0 48px;
   height: 56px;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #e0d8cf;
+  background: #f6f1eb;
   flex-shrink: 0;
 }
-.header-name { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.header-name {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #1e1a16;
+}
 .header-nav { display: flex; gap: 28px; }
-.header-nav a { font-size: 12px; color: #aaa; text-decoration: none; transition: color 0.15s; }
-.header-nav a:hover { color: #111; }
+.header-nav a {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  color: #9a8f82;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color 0.15s;
+}
+.header-nav a:hover { color: #c05a2f; }
 
 /* ─────────────────────────── CONTENT AREA ─────────────────────────── */
 
@@ -40,9 +56,9 @@ body {
   position: relative;
   min-height: 0;
   overflow: hidden;
+  background: #f6f1eb;
+  transition: background 0.5s ease;
 }
-
-
 
 /* ─────────────────────────── CONTENT PANE ─────────────────────────── */
 
@@ -52,36 +68,104 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 0 64px 24px;
+  justify-content: flex-start;
+  padding: 52px 64px 24px;
   overflow: hidden;
 }
 
+.ascii-texture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.04;
+  color: #c05a2f;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 8px;
+  line-height: 1.1;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  white-space: pre;
+  padding: 10px 14px;
+}
+
+.content-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Milestone counter — top-right of content area */
+.milestone-counter {
+  position: absolute;
+  top: 52px;
+  right: 64px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  color: #c0b5ac;
+  letter-spacing: 0.08em;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Full-frame ASCII flash overlay */
+.ascii-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 8px;
+  line-height: 1.1;
+  white-space: pre;
+  padding: 10px 14px;
+  color: #c05a2f;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.07s ease;
+  overflow: hidden;
+}
+
+/* Category tag */
+.content-category {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+  color: #c0b5ac;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
 .content-parent {
+  font-family: 'Courier New', Courier, monospace;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  color: #ccc;
+  color: #c05a2f;
   margin-bottom: 14px;
 }
 
 .content-title {
-  font-size: 40px;
-  font-weight: 600;
-  letter-spacing: -0.025em;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 44px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   line-height: 1.05;
-  color: #111;
+  color: #1e1a16;
 }
 
 .content-meta {
-  font-size: 14px;
-  color: #aaa;
-  margin-top: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  color: #9a8f82;
+  margin-top: 12px;
+  letter-spacing: 0.02em;
 }
 
 .content-summary {
-  font-size: 14px;
-  color: #666;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+  color: #4a3f35;
   line-height: 1.8;
   margin-top: 24px;
   max-width: 560px;
@@ -95,31 +179,34 @@ body {
   gap: 8px;
   padding: 0 64px 16px;
   flex-shrink: 0;
+  background: #f6f1eb;
 }
 
 .nav-btn {
   width: 36px;
   height: 36px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #c0b5ac;
   background: none;
   cursor: pointer;
-  font-size: 18px;
-  color: #999;
-  border-radius: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  color: #9a8f82;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: border-color 0.15s, color 0.15s;
   line-height: 1;
 }
-.nav-btn:hover:not(:disabled) { border-color: #aaa; color: #111; }
+.nav-btn:hover:not(:disabled) { border-color: #c05a2f; color: #c05a2f; }
 .nav-btn:disabled { opacity: 0.25; cursor: default; }
 
 /* ─────────────────────────── TIMELINE PANE ─────────────────────────── */
 
 .timeline-pane {
   height: 200px;
-  border-top: 1px solid #ececec;
+  border-top: 1px solid #e0d8cf;
+  background: #f6f1eb;
   flex-shrink: 0;
   overflow: hidden;
   display: flex;
@@ -133,11 +220,11 @@ body {
   display: flex;
   align-items: center;
   scrollbar-width: thin;
-  scrollbar-color: #ddd transparent;
+  scrollbar-color: #e0d8cf transparent;
 }
 .ov-scroll::-webkit-scrollbar { height: 4px; }
 .ov-scroll::-webkit-scrollbar-track { background: transparent; }
-.ov-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.ov-scroll::-webkit-scrollbar-thumb { background: #e0d8cf; border-radius: 0; }
 
 /*
   LABEL_H = 60px, DOT_RADIUS = 7px → LINE_Y = 67px
@@ -155,7 +242,7 @@ body {
   top: 67px;
   left: 0; right: 0;
   height: 1px;
-  background: #e0e0e0;
+  background: #d4c9bf;
 }
 
 .ov-gap { width: 220px; flex-shrink: 0; }
@@ -169,7 +256,7 @@ body {
   position: relative;
   cursor: pointer;
 }
-.ov-col:hover .node-name { color: #111; }
+.ov-col:hover .node-name { color: #1e1a16; }
 
 .node-above {
   position: absolute;
@@ -187,20 +274,23 @@ body {
 }
 
 .node-name {
-  font-size: 12px;
-  font-weight: 500;
-  color: #222;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: #3a3028;
   white-space: nowrap;
   transition: color 0.15s;
   line-height: 1.2;
+  letter-spacing: 0.01em;
 }
-.node-name.minor  { color: #999; }
-.node-name.medium { color: #555; }
-.node-name.sub    { font-weight: 400; color: #ccc; font-size: 10px; }
+.node-name.minor  { color: #9a8f82; }
+.node-name.medium { color: #6b5d52; }
+.node-name.sub    { font-weight: 400; color: #c0b5ac; font-size: 10px; }
 
 .node-tagline {
-  font-size: 10px;
-  color: #bbb;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 9px;
+  color: #c0b5ac;
   margin-top: 2px;
   line-height: 1.3;
   text-align: center;
@@ -209,8 +299,9 @@ body {
 }
 
 .node-years {
-  font-size: 10px;
-  color: #ccc;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 9px;
+  color: #c0b5ac;
   margin-top: 3px;
   white-space: nowrap;
 }
@@ -223,8 +314,8 @@ body {
   left: 0;
   height: 1px;
   width: 0;
-  background: #111;
-  border-radius: 1px;
+  background: #c05a2f;
+  border-radius: 0;
   transition: width 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   z-index: 2;
@@ -235,38 +326,41 @@ body {
 .ov-dot {
   width: 14px; height: 14px;
   border-radius: 50%;
-  background: #f9f9f9;
-  border: 1.5px solid #ccc;
+  background: #f6f1eb;
+  border: 1.5px solid #c0b5ac;
   z-index: 1;
   flex-shrink: 0;
-  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s, border-radius 0.15s;
 }
-.ov-dot.medium { border-color: #999; }
+.ov-dot.medium { border-color: #9a8f82; }
 .ov-dot.major {
   width: 16px; height: 16px;
-  border-color: #444;
+  border-color: #6b5d52;
   border-width: 2px;
   margin-top: -1px;
 }
 .ov-dot.sub {
   width: 7px; height: 7px;
-  border-color: #ddd;
+  border-color: #e0d8cf;
   margin-top: 3px;
 }
 
 /* ── Active state ── */
 
 .ov-dot.active {
-  background: #111 !important;
-  border-color: #111 !important;
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.08);
+  background: #c05a2f !important;
+  border-color: #c05a2f !important;
+  box-shadow: 0 0 0 4px rgba(192, 90, 47, 0.12);
 }
 .ov-dot.sub.active {
-  background: #555 !important;
-  border-color: #555 !important;
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+  background: #c05a2f !important;
+  border-color: #c05a2f !important;
+  box-shadow: 0 0 0 3px rgba(192, 90, 47, 0.10);
 }
-.ov-col.active .node-name { color: #111 !important; font-weight: 600; }
+.ov-dot.major.active {
+  border-radius: 0 !important;
+}
+.ov-col.active .node-name { color: #c05a2f !important; font-weight: 600; }
 
 /* ── Sub-node: label hidden until hover or active ── */
 
@@ -281,7 +375,7 @@ body {
 
 .overlay {
   position: fixed; inset: 0;
-  background: #fff;
+  background: #f6f1eb;
   z-index: 100;
   display: flex; flex-direction: column;
   transform: translateY(100%);
@@ -290,23 +384,51 @@ body {
 .overlay.open { transform: translateY(0); }
 .overlay-header {
   padding: 24px 48px;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #e0d8cf;
   display: flex; align-items: center; gap: 20px;
   flex-shrink: 0;
 }
-.ol-back { background: none; border: none; font-size: 13px; color: #aaa; cursor: pointer; transition: color 0.15s; }
-.ol-back:hover { color: #111; }
-.ol-title { font-size: 22px; font-weight: 600; }
+.ol-back {
+  background: none;
+  border: none;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: #9a8f82;
+  cursor: pointer;
+  transition: color 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.ol-back:hover { color: #c05a2f; }
+.ol-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #1e1a16;
+}
 .overlay-body { flex: 1; padding: 48px; max-width: 760px; overflow-y: auto; }
-.ol-parent { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #ccc; margin-bottom: 20px; }
-.ol-brief { font-size: 16px; color: #444; line-height: 1.8; }
+.ol-parent {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c05a2f;
+  margin-bottom: 20px;
+}
+.ol-brief {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  color: #4a3f35;
+  line-height: 1.8;
+}
 
 /* ─────────────────────────── MOBILE ─────────────────────────── */
 
 @media (max-width: 768px) {
-  .content-pane { padding: 32px 24px; justify-content: flex-start; padding-top: 40px; height: 100%; }
+  .milestone-counter { display: none; }
+  .content-pane { padding: 40px 24px 24px; justify-content: flex-start; height: 100%; }
   .timeline-nav { padding: 0 24px 12px; }
-  .content-title { font-size: 26px; }
+  .content-title { font-size: 28px; }
   .timeline-pane { height: auto; min-height: 180px; }
   .ov-scroll { padding: 0 calc(100dvw - 240px) 0 160px; }
   .site-header { padding: 0 24px; }
@@ -328,9 +450,14 @@ body {
 <!-- ─── CONTENT AREA ─── -->
 <div class="content-area">
 
+  <!-- Milestone counter -->
+  <div class="milestone-counter" id="milestone-counter">01 / 11</div>
 
   <!-- Content pane -->
-  <div class="content-pane" id="content-pane"></div>
+  <div class="content-pane" id="content-pane">
+    <pre class="ascii-texture" id="ascii-texture"></pre>
+    <div class="content-inner" id="content-inner"></div>
+  </div>
 
 </div>
 
@@ -501,10 +628,145 @@ const milestones = [
   }
 ];
 
+// ─── Category + background mapping ───
+
+const MILESTONE_CATEGORY = {
+  about:       'ABOUT',
+  school:      'EDUCATION',
+  college:     'EDUCATION',
+  uni:         'EDUCATION',
+  internship:  'WORK',
+  job1:        'WORK',
+  job2:        'WORK',
+  freelance:   'FREELANCE',
+  bijenkorf:   'WORK',
+  wpp:         'WORK',
+  opportunity: 'OPEN TO WORK'
+};
+
+const CATEGORY_BG = {
+  'ABOUT':        '#f6f1eb',
+  'EDUCATION':    '#f0ece5',
+  'WORK':         '#f4ede2',
+  'FREELANCE':    '#f7f3ec',
+  'OPEN TO WORK': '#f2ebe0'
+};
+
+// ─── ASCII texture generation ───
+
+function generateAsciiTexture() {
+  const chars = ['o', 'e', 'm', 'R', 'c', '·'];
+  const width = 120;
+  const rows = 30;
+  let result = '';
+  for (let r = 0; r < rows; r++) {
+    let line = '';
+    for (let c = 0; c < width; c++) {
+      // Sparse on the left, denser toward the right
+      const density = 0.08 + (c / width) * 0.62;
+      line += Math.random() < density
+        ? chars[Math.floor(Math.random() * chars.length)]
+        : ' ';
+    }
+    result += line + '\n';
+  }
+  return result;
+}
+
+document.getElementById('ascii-texture').textContent = generateAsciiTexture();
+
+// ─── Dense ASCII for full-frame flash ───
+
+function generateAsciiFlash() {
+  const chars = ['o','e','m','R','c','·','#','%','&','+','~','/','\\'];
+  const width = 150, rows = 45;
+  let out = '';
+  for (let r = 0; r < rows; r++) {
+    let line = '';
+    for (let c = 0; c < width; c++) {
+      line += chars[Math.floor(Math.random() * chars.length)];
+    }
+    out += line + '\n';
+  }
+  return out;
+}
+
+function triggerAsciiFlash(targetBg, callback) {
+  document.querySelectorAll('.ascii-flash').forEach(el => el.remove());
+  const area = document.querySelector('.content-area');
+  const flash = document.createElement('div');
+  flash.className = 'ascii-flash';
+  flash.style.background = targetBg;
+  flash.textContent = generateAsciiFlash();
+  area.appendChild(flash);
+
+  requestAnimationFrame(() => {
+    flash.style.opacity = '1';
+    setTimeout(() => {
+      if (callback) callback();
+      setTimeout(() => {
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 120);
+      }, 80);
+    }, 90);
+  });
+}
+
+// ─── Background + counter + category updates ───
+
+function updateBackground(milestone) {
+  const cat = MILESTONE_CATEGORY[milestone.id] || 'WORK';
+  const bg  = CATEGORY_BG[cat] || '#f6f1eb';
+  document.body.style.background = bg;
+  document.querySelector('.content-area').style.background    = bg;
+  document.querySelector('.site-header').style.background     = bg;
+  document.querySelector('.timeline-pane').style.background   = bg;
+  document.querySelector('.timeline-nav').style.background    = bg;
+}
+
+function updateCounter(milestone) {
+  const el = document.getElementById('milestone-counter');
+  if (!el) return;
+  const idx   = milestones.indexOf(milestone) + 1;
+  const total = milestones.length;
+  const text  = `${String(idx).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  scramble(el, text, 180);
+}
+
+// ─── ASCII dissolve / scramble transition ───
+
+function scramble(element, newText, duration) {
+  const noiseChars = '!@#$%&*·░▒▓';
+  const totalFrames = 14;
+  const frameInterval = duration / totalFrames;
+  let frame = 0;
+
+  // Seed with fully scrambled text matching the target length
+  element.textContent = newText.split('').map(ch =>
+    ch === ' ' ? ' ' : noiseChars[Math.floor(Math.random() * noiseChars.length)]
+  ).join('');
+
+  const tick = setInterval(() => {
+    frame++;
+    const resolved = Math.floor((frame / totalFrames) * newText.length);
+    element.textContent = newText.split('').map((ch, i) => {
+      if (ch === ' ') return ' ';
+      if (i < resolved) return ch;
+      return noiseChars[Math.floor(Math.random() * noiseChars.length)];
+    }).join('');
+
+    if (frame >= totalFrames) {
+      clearInterval(tick);
+      element.textContent = newText;
+    }
+  }, frameInterval);
+}
+
 // ─── Node registry ───
 
 const nodes = []; // {col, dot, item: {milestone, project?}}
 let activeNode = null;
+let isFirstLoad = true;
 
 // ─── Build timeline track ───
 
@@ -588,7 +850,7 @@ function buildOverview() {
 
 // ─── Active state ───
 
-function setActive(item) {
+function setActive(item, fromScroll = false) {
   if (activeNode) {
     activeNode.dot.classList.remove('active');
     activeNode.col.classList.remove('active');
@@ -603,10 +865,18 @@ function setActive(item) {
   node.col.classList.add('active');
   activeNode = node;
 
-  renderContent(item);
+  const isMainNode = !item.project;
+  const cat = MILESTONE_CATEGORY[item.milestone.id] || 'WORK';
+  const bg  = CATEGORY_BG[cat] || '#f6f1eb';
+
+  updateBackground(item.milestone);
+  updateCounter(item.milestone);
   updateNavButtons();
   updateProgress();
   updateBgLine();
+
+  renderContent(item);
+  isFirstLoad = false;
 }
 
 function updateProgress() {
@@ -617,22 +887,40 @@ function updateProgress() {
 }
 
 function renderContent({ milestone, project }) {
-  const pane = document.getElementById('content-pane');
+  const inner = document.getElementById('content-inner');
+  const cat     = MILESTONE_CATEGORY[milestone.id] || 'WORK';
+  const catText = `── ${cat} ──`;
+  const animate = !isFirstLoad;
+
+  const set = (el, text, duration) => {
+    if (!el) return;
+    if (animate) scramble(el, text, duration);
+    else el.textContent = text;
+  };
 
   if (project) {
-    pane.innerHTML = `
-      <div class="content-parent">${milestone.label}</div>
-      <div class="content-title">${project.label}</div>
-      <div class="content-meta">${project.year}</div>
-      <div class="content-summary">${project.brief}</div>
-    `;
+    inner.innerHTML = `
+      <div class="content-category"></div>
+      <div class="content-parent"></div>
+      <div class="content-title"></div>
+      <div class="content-meta"></div>
+      <div class="content-summary"></div>`;
+    set(inner.querySelector('.content-category'), catText,          140);
+    set(inner.querySelector('.content-parent'),   milestone.label,  200);
+    set(inner.querySelector('.content-title'),    project.label,    260);
+    set(inner.querySelector('.content-meta'),     project.year,     160);
+    set(inner.querySelector('.content-summary'),  project.brief,    320);
   } else {
     const meta = [milestone.tagline, milestone.years].filter(Boolean).join(' · ');
-    pane.innerHTML = `
-      <div class="content-title">${milestone.label}</div>
-      <div class="content-meta">${meta}</div>
-      ${milestone.summary ? `<div class="content-summary">${milestone.summary}</div>` : ''}
-    `;
+    inner.innerHTML = `
+      <div class="content-category"></div>
+      <div class="content-title"></div>
+      <div class="content-meta"></div>
+      ${milestone.summary ? '<div class="content-summary"></div>' : ''}`;
+    set(inner.querySelector('.content-category'), catText,             140);
+    set(inner.querySelector('.content-title'),    milestone.label,     260);
+    set(inner.querySelector('.content-meta'),     meta,                160);
+    set(inner.querySelector('.content-summary'),  milestone.summary,   320);
   }
 }
 
@@ -698,7 +986,7 @@ scroller.addEventListener('scroll', () => {
     const dist = Math.abs(cx - focalX);
     if (dist < closestDist) { closestDist = dist; closest = n; }
   });
-  if (closest && closest !== activeNode) setActive(closest.item);
+  if (closest && closest !== activeNode) setActive(closest.item, true);
 }, { passive: true });
 
 // ─── Keyboard navigation ───
