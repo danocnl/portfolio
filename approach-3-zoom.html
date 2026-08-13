@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Career Timeline</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f9f9f9;
+  color: #111;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─────────────────────────── HEADER ─────────────────────────── */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 56px;
+  border-bottom: 1px solid #ececec;
+  flex-shrink: 0;
+}
+
+.header-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.header-nav {
+  display: flex;
+  gap: 28px;
+}
+
+.header-nav a {
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.header-nav a:hover { color: #111; }
+
+/* ─────────────────────────── OVERVIEW ─────────────────────────── */
+
+.overview {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  overflow: visible;
+  min-height: 0;
+}
+.overview.hidden {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+/* Scrollable timeline bar */
+.ov-scroll {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 64px;
+  display: flex;
+  align-items: center;
+  scrollbar-width: thin;
+  scrollbar-color: #ddd transparent;
+}
+.ov-scroll::-webkit-scrollbar { height: 4px; }
+.ov-scroll::-webkit-scrollbar-track { background: transparent; }
+.ov-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+/*
+  Track layout:
+  – align-items: flex-start so sub-items below major nodes don't shift minor nodes
+  – The horizontal line sits at top: LINE_Y = LABEL_H + DOT_RADIUS
+    LABEL_H = 80px (fixed label zone), DOT = 14px → LINE_Y = 80 + 7 = 87px
+*/
+.ov-track {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  min-width: max-content;
+}
+
+.ov-track::before {
+  content: '';
+  position: absolute;
+  top: 87px;
+  left: 0; right: 0;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.ov-gap { width: 80px; flex-shrink: 0; }
+
+/* Each milestone column */
+.ov-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px; /* label zone */
+  position: relative;
+  cursor: pointer;
+}
+.ov-col:hover .ov-dot { border-color: #111; }
+.ov-col:hover .node-name { color: #111; }
+
+/* Label zone: absolutely positioned inside the 80px padding */
+.node-above {
+  position: absolute;
+  top: 0;
+  height: 80px;
+  width: max-content;
+  max-width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 7px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.node-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  transition: color 0.15s;
+  line-height: 1.2;
+}
+.node-name.minor { font-weight: 400; color: #aaa; font-size: 11px; }
+.node-name.medium { color: #777; }
+
+.node-tagline {
+  font-size: 10px;
+  color: #bbb;
+  margin-top: 2px;
+  line-height: 1.3;
+  text-align: center;
+  max-width: 130px;
+}
+
+.node-years {
+  font-size: 10px;
+  color: #ccc;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+.node-name.minor ~ .node-years { color: #ddd; }
+
+/* The dot itself */
+.ov-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #f9f9f9;
+  border: 1.5px solid #ccc;
+  z-index: 1;
+  flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ov-dot.medium { border-color: #999; }
+.ov-dot.major {
+  width: 16px; height: 16px;
+  border-color: #444;
+  border-width: 2px;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.04);
+  /* re-align: major dot is 2px taller, shift up 1px so center stays at 87px */
+  margin-top: -1px;
+}
+
+/* Sub-steps hang below the dot */
+.node-below {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.vert-connector {
+  width: 1px;
+  height: 18px;
+  background: #e4e4e4;
+  align-self: center;
+}
+
+.sub-items {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-top: 2px;
+}
+
+.sub-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sub-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  flex-shrink: 0;
+}
+
+.sub-label {
+  font-size: 11px;
+  color: #bbb;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ─────────────────────────── DETAIL VIEW ─────────────────────────── */
+
+.detail {
+  position: fixed;
+  inset: 0;
+  background: #f9f9f9;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(10px) scale(1.01);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  pointer-events: none;
+}
+.detail.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.detail-nav {
+  padding: 20px 48px;
+  border-bottom: 1px solid #ececec;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.back-btn {
+  background: none;
+  border: 1px solid #e0e0e0;
+  padding: 7px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #888;
+  border-radius: 4px;
+  transition: border-color 0.15s, color 0.15s;
+}
+.back-btn:hover { border-color: #aaa; color: #111; }
+
+.detail-breadcrumb {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.detail-body {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 0;
+}
+
+/* Left column: summary */
+.detail-summary-col {
+  padding: 40px 40px 40px 48px;
+  border-right: 1px solid #ececec;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-company {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.detail-years {
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 6px;
+}
+.detail-summary {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+  margin-top: 20px;
+}
+
+/* Right column: project cards */
+.detail-projects-col {
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.projects-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+
+.project-card {
+  background: #fff;
+  border: 1px solid #ececec;
+  padding: 22px 24px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.project-card:hover {
+  border-color: #bbb;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.project-card-title { font-size: 15px; font-weight: 600; }
+.project-card-year  { font-size: 11px; color: #bbb; margin-top: 4px; }
+.project-card-brief {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.project-card-cta {
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 12px;
+  display: block;
+  transition: color 0.15s;
+}
+.project-card:hover .project-card-cta { color: #333; }
+
+.no-projects-note {
+  font-size: 13px;
+  color: #ccc;
+  padding-top: 4px;
+}
+
+/* ─────────────────────────── OVERLAY ─────────────────────────── */
+
+.overlay {
+  position: fixed; inset: 0;
+  background: #fff;
+  z-index: 100;
+  display: flex; flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.overlay.open { transform: translateY(0); }
+
+.overlay-header {
+  padding: 24px 48px;
+  border-bottom: 1px solid #ececec;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.ol-back {
+  background: none; border: none;
+  font-size: 13px; color: #aaa; cursor: pointer;
+  transition: color 0.15s;
+}
+.ol-back:hover { color: #111; }
+.ol-title { font-size: 22px; font-weight: 600; }
+
+.overlay-body {
+  flex: 1;
+  padding: 48px;
+  max-width: 760px;
+  overflow-y: auto;
+}
+.ol-parent {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+.ol-brief {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.8;
+}
+.overlay-section { margin-top: 48px; }
+.overlay-section h2 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ccc;
+  margin-bottom: 12px;
+}
+.overlay-section p {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.7;
+}
+
+/* ─────────────────────────── MOBILE ─────────────────────────── */
+
+@media (max-width: 768px) {
+  /* Allow the overview to scroll vertically */
+  .overview {
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .ov-scroll {
+    overflow-x: hidden;
+    overflow-y: visible;
+    align-items: flex-start;
+    padding: 36px 28px 56px;
+  }
+
+  /* Stack nodes top-to-bottom */
+  .ov-track {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Vertical line runs down the left edge, centred on the dots */
+  .ov-track::before {
+    top: 0; bottom: 0;
+    left: 7px;        /* half of 14px dot */
+    width: 1px;
+    height: auto;     /* override desktop height: 1px */
+  }
+
+  /* Gaps become vertical breathing room */
+  .ov-gap {
+    width: auto;
+    height: 28px;
+  }
+
+  /*
+    Each node: CSS grid with the dot pinned to the left column
+    and label + sub-items stacked in the right column.
+  */
+  .ov-col {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    grid-template-areas:
+      "dot above"
+      "dot below";
+    padding-top: 0;
+    align-items: start;
+  }
+
+  .ov-dot {
+    grid-area: dot;
+    margin-top: 2px; /* optical alignment with the first line of text */
+  }
+  .ov-dot.major {
+    margin-top: 1px;
+    margin-left: -1px; /* re-centre the slightly wider dot */
+  }
+
+  /* Label zone: back to normal flow, left-aligned */
+  .node-above {
+    grid-area: above;
+    position: static;
+    height: auto;
+    width: auto;
+    max-width: none;
+    padding-bottom: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .node-name,
+  .node-tagline,
+  .node-years { text-align: left; }
+
+  /* Sub-items sit below the label in the right column */
+  .node-below {
+    grid-area: below;
+    align-items: flex-start;
+    margin-top: 8px;
+  }
+
+  /* The short vertical connector between dot and sub-items is
+     redundant now that the main line runs continuously */
+  .vert-connector { display: none; }
+
+  /* Detail view: stack summary above projects on narrow screens */
+  .detail-body {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+
+  .detail-summary-col {
+    border-right: none;
+    border-bottom: 1px solid #ececec;
+    padding: 28px 24px;
+  }
+
+  .detail-projects-col {
+    padding: 28px 24px;
+  }
+
+  .detail-nav { padding: 16px 24px; }
+  .detail-company { font-size: 22px; }
+
+  .site-header { padding: 0 24px; }
+  .overlay-body { padding: 32px 24px; }
+  .overlay-header { padding: 18px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="site-header">
+  <div class="header-name">Dan O'Connell</div>
+  <nav class="header-nav">
+    <a href="#">Work</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<!-- ─── OVERVIEW ─── -->
+<div class="overview" id="overview">
+  <div class="ov-scroll">
+    <div class="ov-track" id="ov-track"></div>
+  </div>
+</div>
+
+<!-- ─── DETAIL VIEW ─── -->
+<div class="detail" id="detail">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="backToOverview()">← Overview</button>
+    <span class="detail-breadcrumb" id="d-breadcrumb"></span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-summary-col">
+      <div class="detail-company" id="d-company"></div>
+      <div class="detail-years"   id="d-years"></div>
+      <div class="detail-summary" id="d-summary"></div>
+    </div>
+    <div class="detail-projects-col" id="d-projects"></div>
+  </div>
+</div>
+
+<!-- ─── OVERLAY ─── -->
+<div class="overlay" id="overlay">
+  <div class="overlay-header">
+    <button class="ol-back" onclick="closeOverlay()">← Back</button>
+    <span class="ol-title" id="ol-title"></span>
+  </div>
+  <div class="overlay-body">
+    <div class="ol-parent" id="ol-parent"></div>
+    <p class="ol-brief" id="ol-brief"></p>
+    <div class="overlay-section">
+      <h2>Impact</h2>
+      <p>Full case study content goes here — metrics, process, outcome, visuals.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const milestones = [
+  {
+    id: 'school',
+    label: 'School', years: '2003–2010', type: 'minor',
+    tagline: null,
+    summary: 'Leaving cert. First exposure to building for the web — MySpace CSS, early forum skins, the beginning of a habit.',
+    projects: []
+  },
+  {
+    id: 'college',
+    label: 'College', years: '2010–2012', type: 'minor',
+    tagline: null,
+    summary: 'Further Education. Graphic design and web fundamentals. First time treating visual craft seriously alongside code.',
+    projects: []
+  },
+  {
+    id: 'uni',
+    label: 'University', years: '2012–2016', type: 'medium',
+    tagline: 'BSc Computer Science',
+    summary: 'BSc Computer Science. Where building things shifted from hobby to craft. First real products, first systems thinking, first experience of shipping something people actually used.',
+    projects: [
+      {
+        id: 'thesis',
+        label: 'Final Year Project', year: '2016',
+        brief: 'Built a real-time collaborative editor for my thesis. First encounter with WebSockets, distributed state, and the gap between academic problems and production realities. The thing I was most proud of in four years.'
+      }
+    ]
+  },
+  {
+    id: 'internship',
+    label: 'Internship', years: '2015', type: 'medium',
+    tagline: 'Digital agency',
+    summary: 'Frontend placement at a digital agency during third year. First production code, real deadlines, real clients. The realisation that constraints make better work, and that "it works on my machine" is not a shipping criterion.',
+    projects: [
+      {
+        id: 'intern-proj',
+        label: 'Campaign Microsite', year: '2015',
+        brief: 'Led the build of a campaign microsite for a major FMCG brand. Tight deadline, real budget, first time I owned something end-to-end from brief to handoff. Shipped on time. Learned more in eight weeks than in a semester.'
+      }
+    ]
+  },
+  {
+    id: 'job1',
+    label: 'BrandCo', years: '2016–2020', type: 'major',
+    tagline: '1 dev → 12 teams',
+    summary: 'Joined as the sole frontend developer when the webshop was a legacy, low-traffic afterthought with minimal investment and no real product thinking behind it. Left four years later with e-commerce as the #1 revenue stream for the company — 12 scrum teams building on the architecture I\'d designed, a design system I\'d founded, and a platform that had gone from liability to the core of the business.',
+    projects: [
+      {
+        id: 'job1-p1',
+        label: 'Platform Relaunch', year: '2017',
+        brief: 'Full replatform from a legacy monolithic CMS to a headless architecture. Authored the technical spec, coordinated delivery across 3 agencies, led the migration, and oversaw a zero-downtime cutover on a system handling tens of thousands of daily transactions. The decision that changed the trajectory of the business.'
+      },
+      {
+        id: 'job1-p2',
+        label: 'Design System', year: '2019',
+        brief: 'Founded and shipped the component library that scaled across 12 product teams. Started as informal pattern documentation after noticing the same components being rebuilt in different ways by different squads. Ended as a versioned, tested, Figma-paired system that became the baseline for every new squad that joined the platform.'
+      }
+    ]
+  },
+  {
+    id: 'job2',
+    label: 'AgencyX', years: '2020–2022', type: 'major',
+    tagline: 'Senior product engineer',
+    summary: 'Senior product engineer working across fintech and retail clients. Move between embedded team lead and individual contributor roles depending on what the engagement needs — sometimes the missing technical direction, sometimes the person who just ships it. Consistent theme: come in when something is stuck, leave when it isn\'t.',
+    projects: [
+      {
+        id: 'job2-p1',
+        label: 'Checkout Rebuild', year: '2021',
+        brief: 'Reduced cart drop-off by 34% through a ground-up checkout UX rebuild. Ran the research, designed the flows, wrote the code, shipped it. Fully IC. Delivered in 10 weeks against a 16-week estimate. The kind of project that only works when design and engineering are the same person.'
+      },
+      {
+        id: 'job2-p2',
+        label: 'Token Pipeline', year: '2022',
+        brief: 'Designed and shipped a cross-brand design token pipeline adopted by 4 product teams. Eliminated the recurring design drift that was costing QA cycles every sprint and creating invisible maintenance debt across every brand touchpoint. The kind of problem nobody owns until someone decides to.'
+      }
+    ]
+  },
+  {
+    id: 'freelance',
+    label: 'Freelance', years: '2022–2023', type: 'minor',
+    tagline: null,
+    summary: 'A year of independent work between roles. Took on a handful of product engagements for early-stage startups — mostly helping founders go from idea to something shippable without hiring a full team.',
+    projects: []
+  },
+  {
+    id: 'job3',
+    label: 'FinCo', years: '2023–2024', type: 'major',
+    tagline: 'Staff engineer',
+    summary: 'First staff-level role. Embedded into a fintech product org going through a period of rapid growth — headcount doubling, platform fragmenting, and engineering leadership stretched thin. Brought in to stabilise the frontend architecture and raise the floor on quality across 6 product squads.',
+    projects: [
+      {
+        id: 'job3-p1',
+        label: 'Architecture Review', year: '2023',
+        brief: 'Audited the frontend codebase across 6 squads and produced a roadmap for consolidation. Identified three parallel component libraries, two competing state management approaches, and zero shared tooling. The review became the basis for a 6-month remediation plan adopted by the CTO.'
+      },
+      {
+        id: 'job3-p2',
+        label: 'Performance Overhaul', year: '2024',
+        brief: 'Led a cross-squad initiative to address critical performance regressions that were affecting conversion. Reduced LCP by 58% and eliminated a class of bundle bloat that had accumulated across 18 months of rapid feature delivery.'
+      }
+    ]
+  },
+  {
+    id: 'conf1',
+    label: 'Speaking', years: '2024', type: 'minor',
+    tagline: 'CSSConf EU',
+    summary: 'First conference talk — invited to speak at CSSConf EU on the design system work from BrandCo. Spent three months turning four years of accumulated decisions into something coherent enough to say out loud in front of 400 people.',
+    projects: []
+  },
+  {
+    id: 'job4',
+    label: 'CurrentCo', years: '2024–Now', type: 'major',
+    tagline: 'Principal engineer',
+    summary: 'First principal-level role. Scope spans product engineering, platform decisions, and a chunk of the hiring process. Working closely with the CPO on the product strategy side and with the CTO on the engineering side — the kind of job where "not my problem" is never the right answer.',
+    projects: [
+      {
+        id: 'job4-p1',
+        label: 'Platform Strategy', year: '2024',
+        brief: 'Authored the 3-year platform roadmap adopted by the board. Started from first principles — what does this company need to be able to build in 3 years, and what has to be true of the platform for that to be possible? Ended with a concrete sequencing plan and a set of non-negotiable architectural constraints.'
+      },
+      {
+        id: 'job4-p2',
+        label: 'AI Integration', year: '2025',
+        brief: 'Led the evaluation and integration of LLM tooling into the core product. Moved fast enough to ship something real, slow enough to avoid shipping something embarrassing. The balance most companies get wrong in both directions.'
+      }
+    ]
+  },
+  {
+    id: 'opensource',
+    label: 'Open Source', years: '2019–Now', type: 'minor',
+    tagline: null,
+    summary: 'Ongoing contributions across a handful of open source projects — mostly tooling and developer experience adjacent. Nothing famous, but a useful forcing function for writing code that has to explain itself to strangers.',
+    projects: []
+  }
+];
+
+// ─── Build overview track ───
+
+function buildOverview() {
+  const track = document.getElementById('ov-track');
+
+  milestones.forEach((m, i) => {
+    if (i > 0) {
+      const g = document.createElement('div');
+      g.className = 'ov-gap';
+      track.appendChild(g);
+    }
+
+    const col = document.createElement('div');
+    col.className = 'ov-col';
+    col.onclick = () => zoomTo(m);
+
+    // ── Label zone (above line) ──
+    const above = document.createElement('div');
+    above.className = 'node-above';
+
+    const name = document.createElement('div');
+    name.className = `node-name ${m.type}`;
+    name.textContent = m.label;
+    above.appendChild(name);
+
+    if (m.tagline) {
+      const tagline = document.createElement('div');
+      tagline.className = 'node-tagline';
+      tagline.textContent = m.tagline;
+      above.appendChild(tagline);
+    }
+
+    const years = document.createElement('div');
+    years.className = 'node-years';
+    years.textContent = m.years;
+    above.appendChild(years);
+
+    col.appendChild(above);
+
+    // ── Dot (on the line) ──
+    const dot = document.createElement('div');
+    dot.className = `ov-dot ${m.type}`;
+    col.appendChild(dot);
+
+    // ── Sub-steps (below line, non-interactive) ──
+    if (m.projects.length > 0) {
+      const below = document.createElement('div');
+      below.className = 'node-below';
+
+      const vc = document.createElement('div');
+      vc.className = 'vert-connector';
+      below.appendChild(vc);
+
+      const subs = document.createElement('div');
+      subs.className = 'sub-items';
+
+      m.projects.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'sub-item';
+
+        const sd = document.createElement('div');
+        sd.className = 'sub-dot';
+
+        const sl = document.createElement('div');
+        sl.className = 'sub-label';
+        sl.textContent = p.label;
+
+        item.appendChild(sd);
+        item.appendChild(sl);
+        subs.appendChild(item);
+      });
+
+      below.appendChild(subs);
+      col.appendChild(below);
+    }
+
+    track.appendChild(col);
+  });
+}
+
+// ─── Zoom into a milestone ───
+
+function zoomTo(m) {
+  document.getElementById('d-breadcrumb').textContent = m.label;
+  document.getElementById('d-company').textContent = m.label;
+  document.getElementById('d-years').textContent = m.years;
+  document.getElementById('d-summary').textContent = m.summary;
+
+  const proj = document.getElementById('d-projects');
+  proj.innerHTML = '';
+
+  if (m.projects.length === 0) {
+    const msg = document.createElement('div');
+    msg.className = 'no-projects-note';
+    msg.textContent = 'No highlighted projects for this period.';
+    proj.appendChild(msg);
+  } else {
+    const lbl = document.createElement('div');
+    lbl.className = 'projects-label';
+    lbl.textContent = 'Key Projects';
+    proj.appendChild(lbl);
+
+    m.projects.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <div class="project-card-title">${p.label}</div>
+        <div class="project-card-year">${p.year}</div>
+        <div class="project-card-brief">${p.brief}</div>
+        <span class="project-card-cta">Read case study →</span>
+      `;
+      card.onclick = () => openOverlay(p, m.label);
+      proj.appendChild(card);
+    });
+  }
+
+  document.getElementById('overview').classList.add('hidden');
+  document.getElementById('detail').classList.add('visible');
+}
+
+function backToOverview() {
+  document.getElementById('overview').classList.remove('hidden');
+  document.getElementById('detail').classList.remove('visible');
+}
+
+// ─── Overlay ───
+
+function openOverlay(p, parentLabel) {
+  document.getElementById('ol-title').textContent = p.label;
+  document.getElementById('ol-parent').textContent = parentLabel;
+  document.getElementById('ol-brief').textContent = p.brief;
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeOverlay() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+buildOverview();
+
+// ─── Wheel anywhere on page → horizontal scroll (desktop only) ───
+window.addEventListener('wheel', (e) => {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) return;
+
+  // Don't hijack scroll when detail or overlay is open
+  const detail = document.getElementById('detail');
+  const overlay = document.getElementById('overlay');
+  if (detail.classList.contains('visible')) return;
+  if (overlay.classList.contains('open')) return;
+
+  const scroller = document.querySelector('.ov-scroll');
+  e.preventDefault();
+  scroller.scrollLeft += e.deltaY + e.deltaX;
+}, { passive: false });
+</script>
+</body>
+</html>
