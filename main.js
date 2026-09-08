@@ -1,498 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — Career Timeline</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Courier New', Courier, monospace;
-  background: #f6f1eb;
-  color: #1e1a16;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: background 0.5s ease;
-}
-
-/* ─────────────────────────── HEADER ─────────────────────────── */
-
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 48px;
-  height: 56px;
-  border-bottom: 1px solid #e0d8cf;
-  background: #f6f1eb;
-  flex-shrink: 0;
-}
-.header-name {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #1e1a16;
-}
-.header-nav { display: flex; gap: 28px; }
-.header-nav a {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  color: #9a8f82;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  transition: color 0.15s;
-}
-.header-nav a:hover { color: #c05a2f; }
-
-/* ─────────────────────────── CONTENT AREA ─────────────────────────── */
-
-.content-area {
-  flex: 1;
-  position: relative;
-  min-height: 0;
-  overflow: hidden;
-  background: #f6f1eb;
-  transition: background 0.5s ease;
-}
-
-/* ─────────────────────────── CONTENT PANE ─────────────────────────── */
-
-.content-pane {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 52px 64px 24px;
-  overflow: hidden;
-}
-
-.ascii-texture {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.04;
-  color: #c05a2f;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 8px;
-  line-height: 1.1;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-  white-space: pre;
-  padding: 10px 14px;
-}
-
-.content-inner {
-  position: relative;
-  z-index: 1;
-}
-
-/* Milestone counter — top-right of content area */
-.milestone-counter {
-  position: absolute;
-  top: 52px;
-  right: 64px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  color: #c0b5ac;
-  letter-spacing: 0.08em;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Full-frame ASCII flash overlay */
-.ascii-flash {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 8px;
-  line-height: 1.1;
-  white-space: pre;
-  padding: 10px 14px;
-  color: #c05a2f;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.07s ease;
-  overflow: hidden;
-}
-
-/* Category tag */
-.content-category {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 10px;
-  color: #c0b5ac;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.content-parent {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: #c05a2f;
-  margin-bottom: 14px;
-}
-
-.content-title {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 44px;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.05;
-  color: #1e1a16;
-}
-
-.content-meta {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  color: #9a8f82;
-  margin-top: 12px;
-  letter-spacing: 0.02em;
-}
-
-.content-summary {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 15px;
-  color: #4a3f35;
-  line-height: 1.8;
-  margin-top: 24px;
-  max-width: 560px;
-}
-
-/* ─────────────────────────── TIMELINE NAV ─────────────────────────── */
-
-.timeline-nav {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 0 64px 16px;
-  flex-shrink: 0;
-  background: #f6f1eb;
-}
-
-.nav-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid #c0b5ac;
-  background: none;
-  cursor: pointer;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 16px;
-  color: #9a8f82;
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.15s, color 0.15s;
-  line-height: 1;
-}
-.nav-btn:hover:not(:disabled) { border-color: #c05a2f; color: #c05a2f; }
-.nav-btn:disabled { opacity: 0.25; cursor: default; }
-
-/* ─────────────────────────── TIMELINE PANE ─────────────────────────── */
-
-.timeline-pane {
-  height: 200px;
-  border-top: 1px solid #e0d8cf;
-  background: #f6f1eb;
-  flex-shrink: 0;
-  overflow: hidden;
-  display: flex;
-}
-
-.ov-scroll {
-  flex: 1;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 0 calc(100vw - 240px) 0 160px;
-  display: flex;
-  align-items: center;
-  scrollbar-width: thin;
-  scrollbar-color: #e0d8cf transparent;
-}
-.ov-scroll::-webkit-scrollbar { height: 4px; }
-.ov-scroll::-webkit-scrollbar-track { background: transparent; }
-.ov-scroll::-webkit-scrollbar-thumb { background: #e0d8cf; border-radius: 0; }
-
-/*
-  LABEL_H = 60px, DOT_RADIUS = 7px → LINE_Y = 67px
-*/
-.ov-track {
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  min-width: max-content;
-}
-
-.ov-track::before {
-  content: '';
-  position: absolute;
-  top: 67px;
-  left: 0; right: 0;
-  height: 1px;
-  background: #d4c9bf;
-}
-
-.ov-gap { width: 220px; flex-shrink: 0; }
-.ov-gap--sub { width: 160px; }
-
-.ov-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 60px;
-  position: relative;
-  cursor: pointer;
-}
-.ov-col:hover .node-name { color: #1e1a16; }
-
-.node-above {
-  position: absolute;
-  top: 0;
-  height: 60px;
-  width: max-content;
-  max-width: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  padding-bottom: 7px;
-  text-align: center;
-  pointer-events: none;
-}
-
-.node-name {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  font-weight: 400;
-  color: #3a3028;
-  white-space: nowrap;
-  transition: color 0.15s;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-}
-.node-name.minor  { color: #9a8f82; }
-.node-name.medium { color: #6b5d52; }
-.node-name.sub    { font-weight: 400; color: #c0b5ac; font-size: 10px; }
-
-.node-tagline {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 9px;
-  color: #c0b5ac;
-  margin-top: 2px;
-  line-height: 1.3;
-  text-align: center;
-  max-width: 130px;
-  white-space: nowrap;
-}
-
-.node-years {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 9px;
-  color: #c0b5ac;
-  margin-top: 3px;
-  white-space: nowrap;
-}
-
-/* ── Progress line ── */
-
-.track-progress {
-  position: absolute;
-  top: 67px;
-  left: 0;
-  height: 1px;
-  width: 0;
-  background: #c05a2f;
-  border-radius: 0;
-  transition: width 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* ── Dots ── */
-
-.ov-dot {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: #f6f1eb;
-  border: 1.5px solid #c0b5ac;
-  z-index: 1;
-  flex-shrink: 0;
-  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s, border-radius 0.15s;
-}
-.ov-dot.medium { border-color: #9a8f82; }
-.ov-dot.major {
-  width: 16px; height: 16px;
-  border-color: #6b5d52;
-  border-width: 2px;
-  margin-top: -1px;
-}
-.ov-dot.sub {
-  width: 7px; height: 7px;
-  border-color: #e0d8cf;
-  margin-top: 3px;
-}
-
-/* ── Active state ── */
-
-.ov-dot.active {
-  background: #c05a2f !important;
-  border-color: #c05a2f !important;
-  box-shadow: 0 0 0 4px rgba(192, 90, 47, 0.12);
-}
-.ov-dot.sub.active {
-  background: #c05a2f !important;
-  border-color: #c05a2f !important;
-  box-shadow: 0 0 0 3px rgba(192, 90, 47, 0.10);
-}
-.ov-dot.major.active {
-  border-radius: 0 !important;
-}
-.ov-col.active .node-name { color: #c05a2f !important; font-weight: 600; }
-
-/* ── Sub-node: label hidden until hover or active ── */
-
-.ov-col--sub .node-above {
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-.ov-col--sub:hover .node-above,
-.ov-col--sub.active .node-above { opacity: 1; }
-
-/* ─────────────────────────── OVERLAY ─────────────────────────── */
-
-.overlay {
-  position: fixed; inset: 0;
-  background: #f6f1eb;
-  z-index: 100;
-  display: flex; flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.overlay.open { transform: translateY(0); }
-.overlay-header {
-  padding: 24px 48px;
-  border-bottom: 1px solid #e0d8cf;
-  display: flex; align-items: center; gap: 20px;
-  flex-shrink: 0;
-}
-.ol-back {
-  background: none;
-  border: none;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 12px;
-  color: #9a8f82;
-  cursor: pointer;
-  transition: color 0.15s;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.ol-back:hover { color: #c05a2f; }
-.ol-title {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #1e1a16;
-}
-.overlay-body { flex: 1; padding: 48px; max-width: 760px; overflow-y: auto; }
-.ol-parent {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #c05a2f;
-  margin-bottom: 20px;
-}
-.ol-brief {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 16px;
-  color: #4a3f35;
-  line-height: 1.8;
-}
-
-/* ─────────────────────────── MOBILE ─────────────────────────── */
-
-@media (max-width: 768px) {
-  .milestone-counter { display: none; }
-  .content-pane { padding: 40px 24px 24px; justify-content: flex-start; height: 100%; }
-  .timeline-nav { padding: 0 24px 12px; }
-  .content-title { font-size: 28px; }
-  .timeline-pane { height: auto; min-height: 180px; }
-  .ov-scroll { padding: 0 calc(100dvw - 240px) 0 160px; }
-  .site-header { padding: 0 24px; }
-  .overlay-body { padding: 32px 24px; }
-  .overlay-header { padding: 18px 24px; }
-}
-</style>
-</head>
-<body>
-
-<!-- ─── HEADER ─── -->
-<header class="site-header">
-  <div class="header-name">Dan O'Connell</div>
-  <nav class="header-nav">
-    <a href="#">Contact</a>
-  </nav>
-</header>
-
-<!-- ─── CONTENT AREA ─── -->
-<div class="content-area">
-
-  <!-- Milestone counter -->
-  <div class="milestone-counter" id="milestone-counter">01 / 11</div>
-
-  <!-- Content pane -->
-  <div class="content-pane" id="content-pane">
-    <pre class="ascii-texture" id="ascii-texture"></pre>
-    <div class="content-inner" id="content-inner"></div>
-  </div>
-
-</div>
-
-<!-- ─── TIMELINE NAV ─── -->
-<div class="timeline-nav">
-  <button class="nav-btn" id="btn-prev" onclick="prev()" aria-label="Previous">←</button>
-  <button class="nav-btn" id="btn-next" onclick="next()" aria-label="Next">→</button>
-</div>
-
-<!-- ─── TIMELINE PANE ─── -->
-<div class="timeline-pane">
-  <div class="ov-scroll" id="ov-scroll">
-    <div class="ov-track" id="ov-track"></div>
-  </div>
-</div>
-
-<!-- ─── OVERLAY ─── -->
-<div class="overlay" id="overlay">
-  <div class="overlay-header">
-    <button class="ol-back" onclick="closeOverlay()">← Back</button>
-    <span class="ol-title" id="ol-title"></span>
-  </div>
-  <div class="overlay-body">
-    <div class="ol-parent" id="ol-parent"></div>
-    <p class="ol-brief" id="ol-brief"></p>
-  </div>
-</div>
-
-<script>
 const milestones = [
   {
     id: 'about',
     label: 'Dan O\'Connell', years: '', type: 'major',
     tagline: 'Product Designer & Engineer',
     summary: 'About section — add your intro here.',
+    hideBadge: true,
     projects: []
   },
   {
@@ -610,7 +122,8 @@ const milestones = [
       {
         id: 'wpp-p2',
         label: 'Larger design org', year: '2018–Present',
-        brief: 'Transitioned into working as part of a larger design organisation — adapting to new structures, collaborative rituals, and the challenge of staying aligned at scale.'
+        brief: 'Transitioned into working as part of a larger design organisation — adapting to new structures, collaborative rituals, and the challenge of staying aligned at scale.',
+        caseStudy: 'choreograph'
       },
       {
         id: 'wpp-p3',
@@ -652,6 +165,14 @@ const CATEGORY_BG = {
   'OPEN TO WORK': '#f2ebe0'
 };
 
+const CATEGORY_COLOR = {
+  'ABOUT':        '#a06845',
+  'EDUCATION':    '#4a7c94',
+  'WORK':         '#c05a2f',
+  'FREELANCE':    '#7a9a76',
+  'OPEN TO WORK': '#9b7bb0'
+};
+
 // ─── ASCII texture generation ───
 
 function generateAsciiTexture() {
@@ -662,7 +183,6 @@ function generateAsciiTexture() {
   for (let r = 0; r < rows; r++) {
     let line = '';
     for (let c = 0; c < width; c++) {
-      // Sparse on the left, denser toward the right
       const density = 0.08 + (c / width) * 0.62;
       line += Math.random() < density
         ? chars[Math.floor(Math.random() * chars.length)]
@@ -715,13 +235,13 @@ function triggerAsciiFlash(targetBg, callback) {
 // ─── Background + counter + category updates ───
 
 function updateBackground(milestone) {
-  const cat = MILESTONE_CATEGORY[milestone.id] || 'WORK';
-  const bg  = CATEGORY_BG[cat] || '#f6f1eb';
+  const cat   = MILESTONE_CATEGORY[milestone.id] || 'WORK';
+  const bg    = CATEGORY_BG[cat]    || '#f6f1eb';
+  const color = CATEGORY_COLOR[cat] || '#c05a2f';
   document.body.style.background = bg;
-  document.querySelector('.content-area').style.background    = bg;
-  document.querySelector('.site-header').style.background     = bg;
-  document.querySelector('.timeline-pane').style.background   = bg;
-  document.querySelector('.timeline-nav').style.background    = bg;
+  document.querySelector('.content-area').style.background = bg;
+  document.querySelector('.site-header').style.background  = bg;
+  document.documentElement.style.setProperty('--cat-color', color);
 }
 
 function updateCounter(milestone) {
@@ -741,7 +261,6 @@ function scramble(element, newText, duration) {
   const frameInterval = duration / totalFrames;
   let frame = 0;
 
-  // Seed with fully scrambled text matching the target length
   element.textContent = newText.split('').map(ch =>
     ch === ' ' ? ' ' : noiseChars[Math.floor(Math.random() * noiseChars.length)]
   ).join('');
@@ -764,9 +283,9 @@ function scramble(element, newText, duration) {
 
 // ─── Node registry ───
 
-const nodes = []; // {col, dot, item: {milestone, project?}}
+const nodes = [];
 let activeNode = null;
-let isFirstLoad = true;
+let isFirstLoad = false;
 
 // ─── Build timeline track ───
 
@@ -816,14 +335,15 @@ function buildOverview() {
     dot.className = `ov-dot ${m.type}`;
     col.appendChild(dot);
 
-    track.appendChild(col);
+    const group = document.createElement('div');
+    group.className = `milestone-group${m.projects.length === 0 ? ' single' : ''}`;
+    group.appendChild(col);
     nodes.push({ col, dot, item });
 
-    // Sub-points as inline timeline nodes
     m.projects.forEach(p => {
       const sg = document.createElement('div');
       sg.className = 'ov-gap ov-gap--sub';
-      track.appendChild(sg);
+      group.appendChild(sg);
 
       const scol = document.createElement('div');
       scol.className = 'ov-col ov-col--sub';
@@ -842,9 +362,11 @@ function buildOverview() {
       sdot.className = 'ov-dot sub';
       scol.appendChild(sdot);
 
-      track.appendChild(scol);
+      group.appendChild(scol);
       nodes.push({ col: scol, dot: sdot, item: subItem });
     });
+
+    track.appendChild(group);
   });
 }
 
@@ -865,32 +387,48 @@ function setActive(item, fromScroll = false) {
   node.col.classList.add('active');
   activeNode = node;
 
-  const isMainNode = !item.project;
-  const cat = MILESTONE_CATEGORY[item.milestone.id] || 'WORK';
-  const bg  = CATEGORY_BG[cat] || '#f6f1eb';
-
   updateBackground(item.milestone);
   updateCounter(item.milestone);
   updateNavButtons();
   updateProgress();
   updateBgLine();
+  updateTimelineTitle(item);
 
   renderContent(item);
   isFirstLoad = false;
+
+  const hashId = item.project ? `${item.milestone.id}-${item.project.id}` : item.milestone.id;
+  history.replaceState(null, '', `#${hashId}`);
+  document.body.dataset.page = hashId;
+}
+
+function updateTimelineTitle(item) {
+  const el = document.getElementById('timeline-title');
+  if (!el) return;
+  el.textContent = item.project ? item.project.label : item.milestone.label;
 }
 
 function updateProgress() {
   if (!activeNode) return;
   const el = document.getElementById('track-progress');
   if (!el) return;
-  el.style.width = (activeNode.col.offsetLeft + activeNode.col.offsetWidth / 2) + 'px';
+  const track = document.getElementById('ov-track');
+  const colRect   = activeNode.col.getBoundingClientRect();
+  const trackRect = track.getBoundingClientRect();
+  const x = (colRect.left - trackRect.left) + activeNode.col.offsetWidth / 2;
+  el.style.width = Math.max(0, x - 8) + 'px';
 }
 
 function renderContent({ milestone, project }) {
   const inner = document.getElementById('content-inner');
-  const cat     = MILESTONE_CATEGORY[milestone.id] || 'WORK';
-  const catText = `── ${cat} ──`;
-  const animate = !isFirstLoad;
+  const pane  = document.getElementById('content-pane');
+
+  pane.classList.remove('magazine-mode');
+
+  const cat      = MILESTONE_CATEGORY[milestone.id] || 'WORK';
+  const catLabel = cat.charAt(0) + cat.slice(1).toLowerCase();
+  const badge    = milestone.hideBadge ? '' : `<div class="category-badge">${catLabel}</div>`;
+  const animate  = !isFirstLoad;
 
   const set = (el, text, duration) => {
     if (!el) return;
@@ -899,25 +437,23 @@ function renderContent({ milestone, project }) {
   };
 
   if (project) {
-    inner.innerHTML = `
-      <div class="content-category"></div>
-      <div class="content-parent"></div>
+    const csLink = project.caseStudy
+      ? `<button class="cs-link" onclick="openCaseStudy()">Read case study</button>`
+      : '';
+    inner.innerHTML = `${badge}
       <div class="content-title"></div>
       <div class="content-meta"></div>
-      <div class="content-summary"></div>`;
-    set(inner.querySelector('.content-category'), catText,          140);
-    set(inner.querySelector('.content-parent'),   milestone.label,  200);
+      <div class="content-summary"></div>
+      ${csLink}`;
     set(inner.querySelector('.content-title'),    project.label,    260);
     set(inner.querySelector('.content-meta'),     project.year,     160);
     set(inner.querySelector('.content-summary'),  project.brief,    320);
   } else {
     const meta = [milestone.tagline, milestone.years].filter(Boolean).join(' · ');
-    inner.innerHTML = `
-      <div class="content-category"></div>
+    inner.innerHTML = `${badge}
       <div class="content-title"></div>
       <div class="content-meta"></div>
       ${milestone.summary ? '<div class="content-summary"></div>' : ''}`;
-    set(inner.querySelector('.content-category'), catText,             140);
     set(inner.querySelector('.content-title'),    milestone.label,     260);
     set(inner.querySelector('.content-meta'),     meta,                160);
     set(inner.querySelector('.content-summary'),  milestone.summary,   320);
@@ -933,11 +469,26 @@ function navigateTo(index) {
   if (index < 0 || index >= nodes.length) return;
   const node = nodes[index];
   setActive(node.item);
-  // Smooth-scroll the timeline to bring the dot to the focal point
-  const focalX = scroller.getBoundingClientRect().left + 240;
-  const dotRect = node.dot.getBoundingClientRect();
+  clearTimeout(snapDebounce);
+  const dotRect   = node.dot.getBoundingClientRect();
   const dotCenter = dotRect.left + dotRect.width / 2;
-  scroller.scrollTo({ left: scroller.scrollLeft + (dotCenter - focalX), behavior: 'smooth' });
+  const isLast    = index === nodes.length - 1;
+  let targetX;
+  if (isLast) {
+    targetX = RIGHT_TARGET();
+  } else {
+    const leftBound  = 48 + 18;
+    const rightBound = window.innerWidth - 48 - 18;
+    if (dotCenter < leftBound)       targetX = 100;
+    else if (dotCenter > rightBound) targetX = rightBound;
+    else                             targetX = dotCenter;
+  }
+  isNavigating = true;
+  const delta = dotCenter - targetX;
+  if (Math.abs(delta) > 2) {
+    scroller.scrollTo({ left: scroller.scrollLeft + delta, behavior: 'smooth' });
+  }
+  navTimer = setTimeout(endNav, 1000);
 }
 
 function prev() { navigateTo(nodes.indexOf(activeNode) - 1); }
@@ -964,21 +515,79 @@ function closeOverlay() {
   document.getElementById('overlay').classList.remove('open');
 }
 
+function openCaseStudy() {
+  document.getElementById('cs-overlay').classList.add('open');
+}
+
+function closeCaseStudy() {
+  document.getElementById('cs-overlay').classList.remove('open');
+}
+
 // ─── Init ───
 
 buildOverview();
 
+const scroller = document.getElementById('ov-scroll');
+
 requestAnimationFrame(() => {
   initBgLine();
-  setActive(nodes[0].item);
+  const hash = location.hash.slice(1);
+  const initial = hash
+    ? nodes.find(n => {
+        const id = n.item.project
+          ? `${n.item.milestone.id}-${n.item.project.id}`
+          : n.item.milestone.id;
+        return id === hash;
+      })
+    : null;
+  setActive((initial || nodes[0]).item);
+  if (initial) {
+    const dotRect = initial.dot.getBoundingClientRect();
+    scroller.scrollLeft += dotRect.left + dotRect.width / 2 - window.innerWidth / 2;
+  }
 });
-
-const scroller = document.getElementById('ov-scroll');
 
 // ─── Scroll → update active item ───
 
+const RIGHT_TARGET = () => window.innerWidth - 48 - 18 - 8;
+let isNavigating = false;
+let navTimer, snapDebounce;
+
+function endNav() {
+  clearTimeout(navTimer);
+  isNavigating = false;
+}
+
+function snapLastToRight() {
+  const lastNode = nodes[nodes.length - 1];
+  if (!lastNode || activeNode !== lastNode || isNavigating) return;
+  const lr    = lastNode.dot.getBoundingClientRect();
+  const lcx   = lr.left + lr.width / 2;
+  const delta = lcx - RIGHT_TARGET();
+  if (Math.abs(delta) < 4) return;
+  isNavigating = true;
+  scroller.scrollTo({ left: scroller.scrollLeft + delta, behavior: 'smooth' });
+  navTimer = setTimeout(endNav, 1000);
+}
+
 scroller.addEventListener('scroll', () => {
-  const focalX = scroller.getBoundingClientRect().left + 240;
+  if (isNavigating) return;
+
+  const lastNode = nodes[nodes.length - 1];
+  const focalX   = scroller.getBoundingClientRect().left + 100;
+
+  if (lastNode) {
+    const lr  = lastNode.dot.getBoundingClientRect();
+    const lcx = lr.left + lr.width / 2;
+    if (lcx <= RIGHT_TARGET() + 40) {
+      if (lastNode !== activeNode) setActive(lastNode.item, true);
+      clearTimeout(snapDebounce);
+      snapDebounce = setTimeout(snapLastToRight, 300);
+      return;
+    }
+  }
+  clearTimeout(snapDebounce);
+
   let closest = null, closestDist = Infinity;
   nodes.forEach(n => {
     const r = n.dot.getBoundingClientRect();
@@ -988,6 +597,8 @@ scroller.addEventListener('scroll', () => {
   });
   if (closest && closest !== activeNode) setActive(closest.item, true);
 }, { passive: true });
+
+scroller.addEventListener('scrollend', endNav);
 
 // ─── Keyboard navigation ───
 
@@ -1000,13 +611,12 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('wheel', (e) => {
   if (document.getElementById('overlay').classList.contains('open')) return;
+  if (document.getElementById('cs-overlay').classList.contains('open')) return;
+  if (document.getElementById('content-pane').classList.contains('magazine-mode')) return;
   e.preventDefault();
-  // Normalise across deltaMode: 0=px, 1=lines, 2=pages
   const px = e.deltaMode === 1 ? (e.deltaY + e.deltaX) * 20
            : e.deltaMode === 2 ? (e.deltaY + e.deltaX) * window.innerWidth
            : e.deltaY + e.deltaX;
+  if (px > 0 && activeNode === nodes[nodes.length - 1]) return;
   scroller.scrollLeft += px;
 }, { passive: false });
-</script>
-</body>
-</html>
