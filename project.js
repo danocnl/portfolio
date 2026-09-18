@@ -1,4 +1,6 @@
-scrambleFromDOM(document.querySelector('.project-title'), 450);
+addScrambleHover(document.querySelector('.project-heading'));
+scrambleFromDOM(document.querySelector('.project-eyebrow'), 340);
+scrambleFromDOM(document.querySelector('.project-heading'), 450);
 
 const sections = document.querySelectorAll('.project-section');
 const tocLinks = document.querySelectorAll('.toc-link');
