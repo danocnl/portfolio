@@ -11,16 +11,24 @@
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-name"><span class="name">Dan O'Connell</span><span class="tagline"> Product designer &amp; Engineer</span></div>
-  <nav class="header-nav">
-    <ul>
-      <li><a href="#" class="active"><span>Work</span></a></li>
-      <li class="divider">&bull;</li>
-      <li><a href="#"><span>About</span></a></li>
-      <li class="divider">&bull;</li>
-      <li><a href="#"><span>Fun</span></a></li>
-    </ul>
+<header class="site-header" id="site-header">
+  <div class="header-top">
+    <div class="header-name"><span class="name">Dan O'Connell</span><span class="tagline"> Product designer &amp; Engineer</span></div>
+    <nav class="header-nav">
+      <ul>
+        <li><a href="#" class="active"><span>Work</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="#"><span>About</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="#"><span>Fun</span></a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="#" class="mobile-nav-link active">Work</a>
+    <a href="#" class="mobile-nav-link">About</a>
+    <a href="#" class="mobile-nav-link">Fun</a>
   </nav>
 </header>
 
@@ -29,9 +37,9 @@
     <div class="content-inner">
 
       <div class="content-top">
-        <div class="content-title" id="content-title">Dan O'Connell</div>
-        <div class="content-summary" id="content-summary">Designing software. Building it too.</div>
-        <div class="content-intro" id="content-intro">Products taken from startup to acquisition. Designing, building &amp; delivering at every stage, from research to shipping production code.</div>
+        <h1 class="content-title" id="content-title">Dan O'Connell</h1>
+        <h2 class="h1 content-summary" id="content-summary">Designing software. Building it too.</h2>
+        <h3 class="content-intro" id="content-intro">Products taken from startup to acquisition. Designing, building &amp; delivering at every stage, from research to shipping production code.</h3>
       </div>
 
       <div class="work-grid">
@@ -67,20 +75,21 @@
 
       </div>
 
-      <footer class="site-footer">
-        <span>© 2026 Dan O'Connell</span>
-        <nav>
-          <ul>
-            <li><a href="https://linkedin.com/in/danoconnell">LinkedIn</a></li>
-            <li class="divider">&bull;</li>
-            <li><a href="https://github.com/danocnl">GitHub</a></li>
-            <li class="divider">&bull;</li>
-            <li><a href="mailto:dan@example.com">Email</a></li>
-          </ul>
-        </nav>
-      </footer>
-
     </div>
+
+    <footer class="site-footer">
+      <span>© 2026 Dan O'Connell</span>
+      <nav>
+        <ul>
+          <li><a href="https://linkedin.com/in/danoconnell">LinkedIn</a></li>
+          <li class="divider">&bull;</li>
+          <li><a href="https://github.com/danocnl">GitHub</a></li>
+          <li class="divider">&bull;</li>
+          <li><a href="mailto:dan@example.com">Email</a></li>
+        </ul>
+      </nav>
+    </footer>
+
   </div>
 </div>
 

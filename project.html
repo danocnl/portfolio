@@ -11,16 +11,24 @@
 </head>
 <body class="is-project">
 
-<header class="site-header">
-  <div class="header-name"><span class="name">Dan O'Connell</span><span class="tagline"> Product designer &amp; Engineer</span></div>
-  <nav class="header-nav">
-    <ul>
-      <li><a href="index_real.html" class="active"><span>Work</span></a></li>
-      <li class="divider">&bull;</li>
-      <li><a href="#"><span>About</span></a></li>
-      <li class="divider">&bull;</li>
-      <li><a href="#"><span>Fun</span></a></li>
-    </ul>
+<header class="site-header" id="site-header">
+  <div class="header-top">
+    <div class="header-name"><span class="name">Dan O'Connell</span><span class="tagline"> Product designer &amp; Engineer</span></div>
+    <nav class="header-nav">
+      <ul>
+        <li><a href="index_real.html" class="active"><span>Work</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="#"><span>About</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="#"><span>Fun</span></a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="index_real.html" class="mobile-nav-link active">Work</a>
+    <a href="#" class="mobile-nav-link">About</a>
+    <a href="#" class="mobile-nav-link">Fun</a>
   </nav>
 </header>
 
@@ -42,7 +50,7 @@
   <main class="project-content">
 
     <div class="project-eyebrow">WPP x Google · Shipped 2026</div>
-    <h1 class="project-title">Streamlining campaign production at scale</h1>
+    <h2 class="project-heading">Streamlining campaign production at scale</h2 class="project-heading">
 
     <section id="overview" class="project-section">
       <div class="project-hero"></div>
@@ -82,28 +90,28 @@
 
     <section id="problem" class="project-section">
       <div class="section-eyebrow"><span class="section-num">02</span>Problem</div>
-      <h2 class="section-title">Add your problem heading here</h2>
+      <h3 class="section-title">Add your problem heading here</h3>
       <p class="section-body">Describe the problem you were solving and why it mattered.</p>
       <div class="section-img section-img--short"></div>
     </section>
 
     <section id="solution" class="project-section">
       <div class="section-eyebrow"><span class="section-num">03</span>Solution</div>
-      <h2 class="section-title">Add your solution heading here</h2>
+      <h3 class="section-title">Add your solution heading here</h3>
       <p class="section-body">Describe the solution you designed and why you made the decisions you did.</p>
       <div class="section-img"></div>
     </section>
 
     <section id="results" class="project-section">
       <div class="section-eyebrow"><span class="section-num">04</span>Results</div>
-      <h2 class="section-title">Add your results heading here</h2>
+      <h3 class="section-title">Add your results heading here</h3>
       <p class="section-body">What did you ship and what were the measurable outcomes?</p>
       <div class="section-img section-img--short"></div>
     </section>
 
     <section id="impact" class="project-section">
       <div class="section-eyebrow"><span class="section-num">05</span>Impact</div>
-      <h2 class="section-title">Add your impact heading here</h2>
+      <h3 class="section-title">Add your impact heading here</h3>
       <p class="section-body">What changed as a result of this work?</p>
     </section>
 

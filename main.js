@@ -1,3 +1,11 @@
+function toggleMenu() {
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  if (!header || !toggle) return;
+  const isOpen = header.classList.toggle('menu-open');
+  toggle.innerHTML = isOpen ? '&#x2715;' : '&#9776;';
+}
+
 const noiseChars = '!@#$%&*·&<>+-=~#';
 
 function scramble(element, newText, duration) {
@@ -32,13 +40,9 @@ function scrambleFromDOM(el, duration) {
 }
 
 const stagger = [
-  [() => document.getElementById('content-title'),        450],
-  [() => document.getElementById('content-summary'),      540],
-  [() => document.getElementById('content-intro'),        600],
-  ...Array.from(document.querySelectorAll('.work-card')).map(card => [
-    () => card.querySelectorAll('.card-title, .card-meta'),
-    380
-  ]),
+  [() => document.getElementById('content-title'),   450],
+  [() => document.getElementById('content-summary'), 540],
+  [() => document.getElementById('content-intro'),   600],
 ];
 
 stagger.forEach(([getEl, duration], i) => {
