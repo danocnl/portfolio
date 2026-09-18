@@ -3,128 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — Career Timeline</title>
+<title>Dan O'Connell — Product Designer & Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  .landing-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 16rem;
+    overflow: hidden;
+  }
+
+  .landing-hero {
+    padding: 9rem 0 4rem;
+  }
+
+  .landing-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 0.92;
+    color: var(--text);
+    margin-bottom: -1rem;
+  }
+
+  .landing-tagline {
+    font-family: 'Manrope', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    color: var(--text-body-light);
+    margin-bottom: 4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .landing-intro {
+    font-size: 1.5rem;
+    color: var(--text-body);
+    max-width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .landing-footer-text {
+    font-family: 'Geist Mono', monospace;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+    padding-bottom: 3rem;
+  }
+</style>
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
 <header class="site-header">
-  <div class="header-name">Dan OC</div>
-  <nav class="header-nav">
-    <a href="#">Contact</a>
-  </nav>
+  <div class="header-name"><span class="name">Dan O'Connell</span><span class="tagline"> Product designer &amp; Engineer</span></div>
 </header>
 
-<!-- ─── CONTENT AREA ─── -->
-<div class="content-area">
-  <div class="milestone-counter" id="milestone-counter">01 / 11</div>
-  <div class="content-pane" id="content-pane">
-    <pre class="ascii-texture" id="ascii-texture"></pre>
-    <div class="content-inner" id="content-inner"></div>
+<div class="landing-area">
+  <div class="landing-hero">
+    <div class="landing-name" id="landing-name">Dan O'Connell</div>
+    <div class="landing-tagline" id="landing-tagline">Designing software. Building it too.</div>
+    <div class="landing-intro" id="landing-intro">Products taken from startup to acquisition. Designing, building &amp; delivering at every stage, from research to shipping production code.</div>
   </div>
+  <div class="landing-footer-text" id="landing-status">Full portfolio coming soon.</div>
 </div>
 
-<!-- ─── TIMELINE PANEL ─── -->
-<div class="timeline-panel" id="timeline-panel">
-  <div class="timeline-pane">
-    <div class="ov-scroll" id="ov-scroll">
-      <div class="ov-track" id="ov-track"></div>
-    </div>
-  </div>
-</div>
+<script>
+function scramble(element, newText, duration) {
+  const noiseChars = '!@#$%&*·&<>+-=~#';
+  const totalFrames = 28;
+  const frameInterval = duration / totalFrames;
+  let frame = 0;
 
-<!-- ─── CASE STUDY OVERLAY ─── -->
-<div class="cs-overlay" id="cs-overlay">
-  <div class="cs-nav">
-    <button class="cs-back" onclick="closeCaseStudy()">← Back</button>
-  </div>
-  <div class="cs-body">
-    <div class="cs-eyebrow">Choreograph · Product Design · 2023–2024</div>
-    <h1 class="cs-headline">Developer Tooling<br>for Template Creation</h1>
-    <p class="cs-intro">A user-centred VS Code plugin helping creative developers build HTML ad templates compatible with the platform — reducing manual errors and cutting support burden in half.</p>
+  element.textContent = newText.split('').map(ch =>
+    ch === ' ' ? ' ' : noiseChars[Math.floor(Math.random() * noiseChars.length)]
+  ).join('');
 
-    <img src="images/choreograph/img1.png" alt="Plugin overview" class="cs-img-full">
+  const tick = setInterval(() => {
+    frame++;
+    const t = frame / totalFrames;
+    const resolved = Math.floor((t * t) * newText.length);
+    element.textContent = newText.split('').map((ch, i) => {
+      if (ch === ' ') return ' ';
+      if (i < resolved) return ch;
+      return noiseChars[Math.floor(Math.random() * noiseChars.length)];
+    }).join('');
 
-    <div class="cs-metrics">
-      <div class="cs-metric">
-        <span class="cs-metric-num">150+</span>
-        <span class="cs-metric-label">Regular users</span>
-      </div>
-      <div class="cs-metric">
-        <span class="cs-metric-num">~65%</span>
-        <span class="cs-metric-label">Fewer support tickets</span>
-      </div>
-      <div class="cs-metric">
-        <span class="cs-metric-num">22min</span>
-        <span class="cs-metric-label">Saved per template</span>
-      </div>
-    </div>
+    if (frame >= totalFrames) {
+      clearInterval(tick);
+      element.textContent = newText;
+    }
+  }, frameInterval);
+}
 
-    <div class="cs-section">
-      <h2>The Problem</h2>
-      <p>Developers faced lengthy, error-prone checklists to make templates platform-compatible — flooding support teams with time-consuming tickets. Three focal problems were identified:</p>
-      <ul>
-        <li>Users missing required steps in complex multi-stage processes</li>
-        <li>Disruption to preferred developer tooling workflows</li>
-        <li>Friction and failures during template platform uploads</li>
-      </ul>
-    </div>
+function scrambleFromDOM(el, duration) {
+  if (!el) return;
+  scramble(el, el.textContent.trim(), duration);
+}
 
-    <div class="cs-img-row">
-      <img src="images/choreograph/img3.jpg" alt="" class="cs-img-half">
-      <img src="images/choreograph/img4.jpg" alt="" class="cs-img-half">
-    </div>
+scrambleFromDOM(document.querySelector('.header-name .name'),    340);
+scrambleFromDOM(document.querySelector('.header-name .tagline'), 340);
+scrambleFromDOM(document.getElementById('landing-name'),         450);
+scrambleFromDOM(document.getElementById('landing-tagline'),      540);
+scrambleFromDOM(document.getElementById('landing-intro'),        600);
+scrambleFromDOM(document.getElementById('landing-status'),       700);
 
-    <div class="cs-pullquote">"Allowing developers to continue using their preferred tooling was a great direction for both them and the business."</div>
-
-    <div class="cs-section">
-      <h2>The Solution</h2>
-      <p>A 7-step wizard for new templates and a checklist pattern for existing ones — both living inside VS Code. The wizard outputs boilerplate HTML/CSS/JS pre-configured with required libraries, metadata, and validation ready for platform upload. Steps cover workspace setup, IAB-standard sizing, advertiser login, placeholder mapping, and font selection.</p>
-    </div>
-
-    <img src="images/choreograph/img2.gif" alt="Wizard in action" class="cs-img-full">
-    <p class="cs-img-caption">The 7-step wizard flow</p>
-
-    <div class="cs-img-row">
-      <img src="images/choreograph/img5.jpg" alt="" class="cs-img-half">
-      <img src="images/choreograph/img6.jpg" alt="" class="cs-img-half">
-    </div>
-
-    <div class="cs-section">
-      <h2>Research</h2>
-      <ul>
-        <li>Interviews with creative developers across agencies</li>
-        <li>Six months of support ticket audit for template-related issues</li>
-        <li>Competitor analysis — Flashtalking, Celtra, Hogarth, Frame.io</li>
-        <li>Technology stack validation confirming VS Code dominance</li>
-        <li>Prototype testing with developers and the Product Owner</li>
-      </ul>
-    </div>
-
-    <img src="images/choreograph/img7.gif" alt="" class="cs-img-full">
-
-    <div class="cs-img-row">
-      <img src="images/choreograph/img8.jpg" alt="" class="cs-img-half" style="width:100%">
-    </div>
-  </div>
-</div>
-
-<!-- ─── OVERLAY ─── -->
-<div class="overlay" id="overlay">
-  <div class="overlay-header">
-    <button class="ol-back" onclick="closeOverlay()">← Back</button>
-    <span class="ol-title" id="ol-title"></span>
-  </div>
-  <div class="overlay-body">
-    <div class="ol-parent" id="ol-parent"></div>
-    <p class="ol-brief" id="ol-brief"></p>
-  </div>
-</div>
-
-<script src="main.js"></script>
+document.querySelectorAll('.header-nav li:not(.divider) a span').forEach(el => {
+  scrambleFromDOM(el, 450);
+});
+</script>
 </body>
 </html>
