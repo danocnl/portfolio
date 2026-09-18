@@ -8,230 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<style>
-  body.is-project {
-    height: auto;
-    overflow: auto;
-  }
-
-  body.is-project .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg);
-  }
-
-  /* ── Project layout ── */
-
-  .project-layout {
-    display: grid;
-    grid-template-columns: 16rem 1fr;
-    padding: 0 var(--page-x);
-  }
-
-  /* ── Sidebar ── */
-
-  .project-sidebar {
-    position: sticky;
-    top: 0;
-    height: 100dvh;
-    padding: clamp(4rem, 12dvh, 10rem) 2rem 3rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    border-right: 1px solid var(--border);
-  }
-
-  .back-link {
-    font-family: 'Geist Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-    text-decoration: none;
-  }
-  .back-link:hover { color: var(--text); }
-
-  .toc {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .toc-link {
-    font-family: 'Geist Mono', monospace;
-    font-size: 1rem;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    text-decoration: none;
-    align-self: flex-start;
-  }
-  .toc-link:hover,
-  .toc-link.active { color: var(--text); }
-
-  .toc-link:hover .toc-num { color: var(--text); }
-
-  .toc-link.active { border-bottom: 2px solid var(--text); }
-
-  .toc-link.active  .toc-num { color: var(--text); }
-
-  /* ── Main content ── */
-
-  .project-content {
-    padding: clamp(4rem, 12dvh, 10rem) 0 8rem 6rem;
-  }
-
-  .project-eyebrow {
-    font-family: 'Geist Mono', monospace;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-  }
-
-  .project-title {
-    font-size: 4.5rem;
-    font-weight: 500;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    color: var(--text);
-    margin-bottom: 3rem;
-  }
-
-  .project-hero {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: var(--border);
-    border-radius: 0.5rem;
-    margin-bottom: 4rem;
-  }
-
-  /* ── Meta row ── */
-
-  .project-meta {
-    display: flex;
-    gap: 2em;
-    padding: 2rem 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 4rem;
-  }
-
-  .meta-item {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  .meta-label {
-    font-family: 'Geist Mono', monospace;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-  }
-
-  .meta-value {
-    font-size: 1.25rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
-
-  .meta-value ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .meta-value li::before {
-    content: '•';
-    margin-right: 0.25rem;
-  }
-
-  /* ── Sections ── */
-
-  .project-section {
-    margin-bottom: 5rem;
-    scroll-margin-top: 6rem;
-  }
-
-  .toc-num,
-  .section-num {
-    font-family: 'Geist Mono', monospace;
-    font-size: 1rem;
-    color: var(--text-subtle);
-  }
-
-  .toc-text { margin-left: 0.5rem; }
-
-  .section-eyebrow {
-    font-family: 'Geist Mono', monospace;
-    font-size: 1rem;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .project-lead {
-    font-size: 1.5rem;
-    color: var(--text);
-    line-height: 1.5;
-    margin-bottom: 2rem;
-  }
-
-  .section-title {
-    font-size: 2rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    color: var(--text);
-    margin-bottom: 1rem;
-    max-width: 640px;
-  }
-
-  .section-body {
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--text-body);
-    line-height: 1.8;
-    max-width: 640px;
-  }
-
-  .section-img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: var(--border);
-    border-radius: 0.5rem;
-    margin: 2rem 0;
-  }
-
-  .section-img--short { aspect-ratio: 21 / 9; }
-
-  .section-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .section-col-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-  }
-
-  .section-col-body {
-    font-size: 1em;
-    font-weight: 300;
-    color: var(--text-body);
-    line-height: 1.7;
-  }
-</style>
 </head>
 <body class="is-project">
 
@@ -269,41 +45,39 @@
     <h1 class="project-title">Streamlining campaign production at scale</h1>
 
     <section id="overview" class="project-section">
-    <div class="project-hero"></div>
-    <div class="section-eyebrow"><span class="section-num">01</span>Overview</div>
-    <p class="project-lead">Products taken from startup to acquisition. Designing, building &amp; delivering at every stage, from research to shipping production code.</p>  
+      <div class="project-hero"></div>
+      <div class="section-eyebrow"><span class="section-num">01</span>Overview</div>
+      <p class="project-lead">Products taken from startup to acquisition. Designing, building &amp; delivering at every stage, from research to shipping production code.</p>
 
-    
-    <div class="project-meta">
-      <div class="meta-item">
-        <div class="meta-label">Role</div>
-        <div class="meta-value">Product Designer</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Timeline</div>
-        <div class="meta-value">Jan – Sep 2026</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Team</div>
-        <div class="meta-value">
-          <ul>
-            <li>4 Designers</li>
-            <li>2 Engineers</li>
-          </ul>
+      <div class="project-meta">
+        <div class="meta-item">
+          <div class="meta-label">Role</div>
+          <div class="meta-value">Product Designer</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Timeline</div>
+          <div class="meta-value">Jan – Sep 2026</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Team</div>
+          <div class="meta-value">
+            <ul>
+              <li>4 Designers</li>
+              <li>2 Engineers</li>
+            </ul>
+          </div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Skills</div>
+          <div class="meta-value">
+            <ul>
+              <li>Product Design</li>
+              <li>Research</li>
+              <li>Prototyping</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="meta-item">
-        <div class="meta-label">Skills</div>
-        <div class="meta-value">
-          <ul>
-            <li>Product Design</li>
-            <li>Research</li>
-            <li>Prototyping</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
     </section>
 
     <section id="problem" class="project-section">
@@ -336,32 +110,20 @@
   </main>
 </div>
 
+<footer class="site-footer">
+  <span>© 2026 Dan O'Connell</span>
+  <nav>
+    <ul>
+      <li><a href="https://linkedin.com/in/danoconnell">LinkedIn</a></li>
+      <li class="divider">&bull;</li>
+      <li><a href="https://github.com/danocnl">GitHub</a></li>
+      <li class="divider">&bull;</li>
+      <li><a href="mailto:dan@example.com">Email</a></li>
+    </ul>
+  </nav>
+</footer>
+
 <script src="main.js"></script>
-<script>
-  scrambleFromDOM(document.querySelector('.project-title'), 450);
-
-  // Highlight active TOC link on scroll
-  const sections = document.querySelectorAll('.project-section');
-  const tocLinks = document.querySelectorAll('.toc-link');
-
-  function updateToc() {
-    const atBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100;
-
-    let current = sections[0];
-    sections.forEach(section => {
-      if (section.getBoundingClientRect().top <= window.innerHeight * 0.5) {
-        current = section;
-      }
-    });
-
-    if (atBottom) current = sections[sections.length - 1];
-
-    tocLinks.forEach(l => l.classList.remove('active'));
-    document.querySelector(`.toc-link[href="#${current.id}"]`)?.classList.add('active');
-  }
-
-  window.addEventListener('scroll', updateToc, { passive: true });
-  updateToc();
-</script>
+<script src="project.js"></script>
 </body>
 </html>

@@ -50,7 +50,26 @@ stagger.forEach(([getEl, duration], i) => {
   }, i * 120);
 });
 
+function addScrambleHover(el) {
+  if (!el) return;
+  el.style.cursor = 'crosshair';
+  const original = el.textContent.trim();
+  let scrambling = false;
+  const trigger = () => {
+    if (scrambling) return;
+    scrambling = true;
+    scramble(el, original, 400);
+    setTimeout(() => { scrambling = false; }, 400);
+  };
+  el.addEventListener('mouseenter', trigger);
+  el.addEventListener('mouseleave', trigger);
+}
+
+addScrambleHover(document.querySelector('.header-name .name'));
+addScrambleHover(document.getElementById('content-title'));
+
 document.querySelectorAll('.work-card-link').forEach(link => {
+  link.style.cursor = 'crosshair';
   const title = link.querySelector('.card-title');
   const meta  = link.querySelector('.card-meta');
   const originalTitle = title?.textContent.trim();
@@ -58,6 +77,14 @@ document.querySelectorAll('.work-card-link').forEach(link => {
   let scrambling = false;
 
   link.addEventListener('mouseenter', () => {
+    if (scrambling) return;
+    scrambling = true;
+    if (title) scramble(title, originalTitle, 400);
+    if (meta)  scramble(meta,  originalMeta,  400);
+    setTimeout(() => { scrambling = false; }, 400);
+  });
+
+  link.addEventListener('mouseleave', () => {
     if (scrambling) return;
     scrambling = true;
     if (title) scramble(title, originalTitle, 400);
