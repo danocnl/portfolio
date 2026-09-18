@@ -1,5 +1,6 @@
+const noiseChars = '!@#$%&*·&<>+-=~#';
+
 function scramble(element, newText, duration) {
-  const noiseChars = '!@#$%&*·&<>+-=~#';
   const totalFrames = 28;
   const frameInterval = duration / totalFrames;
   let frame = 0;
@@ -30,12 +31,37 @@ function scrambleFromDOM(el, duration) {
   scramble(el, el.textContent.trim(), duration);
 }
 
-scrambleFromDOM(document.querySelector('.header-name .name'),    340);
-scrambleFromDOM(document.querySelector('.header-name .tagline'), 340);
-scrambleFromDOM(document.getElementById('content-title'),        450);
-scrambleFromDOM(document.getElementById('content-summary'),      540);
-scrambleFromDOM(document.getElementById('content-intro'),        600);
+const stagger = [
+  [() => document.getElementById('content-title'),        450],
+  [() => document.getElementById('content-summary'),      540],
+  [() => document.getElementById('content-intro'),        600],
+  ...Array.from(document.querySelectorAll('.work-card')).map(card => [
+    () => card.querySelectorAll('.card-title, .card-meta'),
+    380
+  ]),
+];
 
-document.querySelectorAll('.header-nav li:not(.divider) a span').forEach(el => {
-  scrambleFromDOM(el, 450);
+stagger.forEach(([getEl, duration], i) => {
+  setTimeout(() => {
+    const el = getEl();
+    if (!el) return;
+    if (el instanceof NodeList) el.forEach(n => scrambleFromDOM(n, duration));
+    else scrambleFromDOM(el, duration);
+  }, i * 120);
+});
+
+document.querySelectorAll('.work-card-link').forEach(link => {
+  const title = link.querySelector('.card-title');
+  const meta  = link.querySelector('.card-meta');
+  const originalTitle = title?.textContent.trim();
+  const originalMeta  = meta?.textContent.trim();
+  let scrambling = false;
+
+  link.addEventListener('mouseenter', () => {
+    if (scrambling) return;
+    scrambling = true;
+    if (title) scramble(title, originalTitle, 400);
+    if (meta)  scramble(meta,  originalMeta,  400);
+    setTimeout(() => { scrambling = false; }, 400);
+  });
 });

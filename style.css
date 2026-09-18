@@ -153,6 +153,21 @@ body {
   padding: 6rem 0;
 }
 
+.work-card-link {
+  display: block;
+  text-decoration: none;
+  break-inside: avoid;
+  transition: transform 0.2s ease;
+}
+
+.work-card-link:hover { transform: translateY(-4px); }
+
+.work-card-link .card-media { transition: box-shadow 0.2s ease; }
+
+.work-card-link:hover .card-media {
+  box-shadow: 0 12px 32px rgba(30, 26, 22, 0.1);
+}
+
 .work-card {
   break-inside: avoid;
   margin-bottom: 4rem;
