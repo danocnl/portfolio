@@ -411,6 +411,17 @@ body.is-project .site-header {
   }
 }
 
+.mobile-back {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-back {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+}
+
 body.is-project .site-footer {
   width: 100%;
   margin-left: 0;
@@ -502,7 +513,7 @@ body.is-project .site-footer {
 
 .project-content {
   width: 100%;
-  padding: clamp(4rem, 9.4dvh, 10rem) 0 8rem;
+  padding: clamp(2rem, 5.5dvh, 10rem) 0 8rem;
 }
 
 @media (min-width: 768px) {
