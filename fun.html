@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun — Dan O'Connell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="about.css">
+<link rel="stylesheet" href="fun.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header">
+  <div class="header-top">
+    <div class="header-name"><a href="index_real.html" class="name-link"><span class="name">Dan O'Connell</span></a><span class="tagline"> Product designer &amp; Engineer</span></div>
+    <nav class="header-nav">
+      <ul>
+        <li><a href="index_real.html"><span>Work</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="about.html"><span>About</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="fun.html" class="active"><span>Fun</span></a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="index_real.html" class="mobile-nav-link">Work</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="fun.html" class="mobile-nav-link active">Fun</a>
+  </nav>
+</header>
+
+<div class="content-area">
+  <div class="content-pane">
+    <div class="content-inner fun-page">
+
+      <div class="about-hero" style="margin-bottom:4rem;">
+        <div class="about-hero-text">
+          <h1 class="about-title" id="fun-title">Fun</h1>
+          <h3 class="about-desc">Things I build for myself.</h3>
+          <p class="about-desc" style="font-size:1rem;color:var(--text-body);">Side projects, experiments, and things that exist because I wanted to make them — no briefs, no clients.</p>
+        </div>
+      </div>
+
+      <div class="fun-grid">
+
+        <div class="fun-row">
+          <a href="project.html" class="work-card-link">
+            <article class="work-card">
+              <div class="card-info"><span class="card-title">Portfolio site</span><span class="card-meta">Personal · 2026</span></div>
+              <div class="card-media fun-media--landscape"></div>
+            </article>
+          </a>
+          <a href="project.html" class="work-card-link">
+            <article class="work-card">
+              <div class="card-info"><span class="card-title">AI poker coach</span><span class="card-meta">Side project · 2023</span></div>
+              <div class="card-media fun-media--portrait"></div>
+            </article>
+          </a>
+        </div>
+
+        <div class="fun-row fun-row--trio">
+          <a href="project.html" class="work-card-link">
+            <article class="work-card">
+              <div class="card-info"><span class="card-title">Motion prototype</span><span class="card-meta">Experiment · 2025</span></div>
+              <div class="card-media fun-media--landscape"></div>
+            </article>
+          </a>
+          <a href="project.html" class="work-card-link">
+            <article class="work-card">
+              <div class="card-info"><span class="card-title">Icon set</span><span class="card-meta">Open source · 2024</span></div>
+              <div class="card-media fun-media--square"></div>
+            </article>
+          </a>
+          <a href="project.html" class="work-card-link">
+            <article class="work-card">
+              <div class="card-info"><span class="card-title">Wallpapers</span><span class="card-meta">Personal · 2023</span></div>
+              <div class="card-media fun-media--portrait"></div>
+            </article>
+          </a>
+        </div>
+
+      </div>
+
+      <footer class="site-footer">
+        <span>© 2026 Dan O'Connell</span>
+        <nav>
+          <ul>
+            <li><a href="https://linkedin.com/in/danoconnell">LinkedIn</a></li>
+            <li class="divider">&bull;</li>
+            <li><a href="https://github.com/danocnl">GitHub</a></li>
+            <li class="divider">&bull;</li>
+            <li><a href="mailto:dan@example.com">Email</a></li>
+          </ul>
+        </nav>
+      </footer>
+
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+  addScrambleHover(document.getElementById('fun-title'));
+  scrambleFromDOM(document.getElementById('fun-title'), 450);
+</script>
+</body>
+</html>

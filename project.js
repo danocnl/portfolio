@@ -23,3 +23,20 @@ function updateToc() {
 
 window.addEventListener('scroll', updateToc, { passive: true });
 updateToc();
+
+// Smooth TOC navigation using View Transitions
+document.querySelectorAll('.toc-link').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        target.scrollIntoView({ behavior: 'instant' });
+      });
+    } else {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
