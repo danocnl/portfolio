@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Dan O'Connell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="about.css">
+</head>
+<body class="is-project">
+
+<header class="site-header" id="site-header">
+  <div class="header-top">
+    <div class="header-name"><a href="index_real.html" class="name-link"><span class="name">Dan O'Connell</span></a><span class="tagline"> Product designer &amp; Engineer</span></div>
+    <nav class="header-nav">
+      <ul>
+        <li><a href="index_real.html"><span>Work</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="about.html" class="active"><span>About</span></a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="#"><span>Fun</span></a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="index_real.html" class="mobile-nav-link">Work</a>
+    <a href="about.html" class="mobile-nav-link active">About</a>
+    <a href="#" class="mobile-nav-link">Fun</a>
+  </nav>
+</header>
+
+<main class="about-page">
+
+  <!-- Hero -->
+  <div class="about-hero">
+    <div class="about-hero-text">
+      <h1 class="about-title" id="about-title">About</h1>
+      <h3 class="about-desc">Product designer and engineer based in the Netherlands, building things that matter.</h3>
+      <div class="about-availability">
+        <span class="availability-dot"></span>
+        <span class="availability-label">Available from Q4 2026</span>
+      </div>
+    </div>
+    <div class="about-photo"></div>
+  </div>
+
+  <!-- Bio columns -->
+  <div class="about-bio">
+    <p>I've spent 15+ years designing and building digital products — moving between research, interaction design, and front-end engineering depending on what the problem needs. I'm comfortable owning the full arc of a feature: from understanding the user to shipping the code.</p>
+    <p>I care about craft, clarity, and making things that actually work for people. I've worked across startups, acquisitions, and large organisations, and I'm at my best when design and engineering are treated as one discipline, not two.</p>
+  </div>
+
+  <!-- Logo marquee -->
+  <section class="marquee-section">
+    <div class="marquee-label">Companies I've worked with</div>
+    <div class="marquee-track">
+      <div class="marquee-inner">
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <!-- duplicated for seamless loop -->
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+        <div class="marquee-logo"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>© 2026 Dan O'Connell</span>
+    <nav>
+      <ul>
+        <li><a href="https://linkedin.com/in/danoconnell">LinkedIn</a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="https://github.com/danocnl">GitHub</a></li>
+        <li class="divider">&bull;</li>
+        <li><a href="mailto:dan@example.com">Email</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+</main>
+
+<script src="main.js"></script>
+<script>
+  addScrambleHover(document.getElementById('about-title'));
+  scrambleFromDOM(document.getElementById('about-title'), 450);
+</script>
+</body>
+</html>

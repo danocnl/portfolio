@@ -72,6 +72,35 @@ function addScrambleHover(el) {
 addScrambleHover(document.querySelector('.header-name .name'));
 addScrambleHover(document.getElementById('content-title'));
 
+// ─── Cursor noise trail ───
+
+(function() {
+  let lastX = 0, lastY = 0;
+  document.addEventListener('mousemove', e => {
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    if (Math.sqrt(dx * dx + dy * dy) < 24) return;
+    lastX = e.clientX;
+    lastY = e.clientY;
+
+    const el = document.createElement('span');
+    el.textContent = noiseChars[Math.floor(Math.random() * noiseChars.length)];
+    el.style.cssText = `
+      position:fixed;left:${e.clientX}px;top:${e.clientY}px;
+      font-family:'Geist Mono',monospace;font-size:0.75rem;
+      color:#9a8f82;pointer-events:none;user-select:none;z-index:9999;
+      transform:translate(-50%,-50%);opacity:1;
+      transition:opacity 0.4s ease,transform 0.4s ease;
+    `;
+    document.body.appendChild(el);
+    requestAnimationFrame(() => {
+      el.style.opacity = '0';
+      el.style.transform = 'translate(-50%,-120%)';
+    });
+    setTimeout(() => el.remove(), 450);
+  });
+})();
+
 document.querySelectorAll('.work-card-link').forEach(link => {
   link.style.cursor = 'crosshair';
   const title = link.querySelector('.card-title');
