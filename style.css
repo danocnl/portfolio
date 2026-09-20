@@ -8,11 +8,9 @@
   
   --accent:      #c05a2f;
 
-  --page-width:  1400px;
-  --page-pad:    2rem;
-  --page-pad-s:    1.5rem;
-  --page-x: max(var(--page-pad), calc((100% - var(--page-width)) / 2));
-  --page-xs: max(var(--page-pad-s), calc((100% - var(--page-width)) / 2));
+  --page-width: 1400px;
+  --page-x:     max(2rem,   calc((100vw - var(--page-width)) / 2));
+  --page-xs:    max(1.5rem, calc((100vw - var(--page-width)) / 2));
 
   /* Mobile-first: 0.75rem base, 1rem on tablet+ */
   --mono-size: 0.75rem;
@@ -40,11 +38,6 @@
   from { opacity: 0; transform: translateY(8px); }
 }
 
-/* Header stays static during transitions */
-.site-header {
-  view-transition-name: site-header;
-}
-
 ::view-transition-old(site-header),
 ::view-transition-new(site-header) {
   animation: none;
@@ -52,8 +45,7 @@
 
 /* Page load entrance (mirrors vt-fade-in, excludes header) */
 .content-area,
-.project-layout,
-main.about-page {
+.project-layout {
   animation: 280ms ease-out both vt-fade-in;
 }
 
@@ -78,6 +70,10 @@ body.page-fixed {
 
 /* Mobile-first: column layout */
 .site-header {
+  view-transition-name: site-header;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -192,9 +188,8 @@ body.page-fixed {
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  padding: 2rem calc(50vw - 50%);
+  margin: 0 calc(-1 * var(--page-xs));
+  padding: 2rem var(--page-xs);
   border-top: 1px solid var(--border);
   background: var(--bg);
   flex-shrink: 0;
@@ -349,14 +344,12 @@ h3 {
   white-space: nowrap;
 }
 
-/* ─────────────────────────── PROJECT PAGE ─────────────────────────── */
-
-/* Header: sticky by default (for scrollable pages) */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* Footer at body level (project/about pages) — no negative margin needed */
+body:not(.page-fixed) .site-footer {
+  margin: 0;
 }
+
+/* ─────────────────────────── PROJECT PAGE ─────────────────────────── */
 
 /* Fixed-viewport pages: header not sticky (always visible as flex item) */
 body.page-fixed .site-header {
@@ -370,10 +363,6 @@ body.page-fixed .site-header {
 }
 
 /* Scrollable pages: footer is full-width direct child of body */
-.site-footer-page {
-  width: 100%;
-  padding: 2rem var(--page-x);
-}
 
 /* Mobile: no grid, desktop: 2-col with sidebar */
 .project-layout {
@@ -456,15 +445,6 @@ body.page-fixed .site-header {
   letter-spacing: 0.08em;
   margin-bottom: 0.5rem;
   color: var(--text-medium);
-}
-
-.project-title {
-  font-size: 4.5rem;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: var(--text-darkest);
-  margin-bottom: 3rem;
 }
 
 .project-hero {
@@ -565,27 +545,6 @@ body.page-fixed .site-header {
 
 .section-img--short { aspect-ratio: 21 / 9; }
 
-.section-cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.section-col-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-darkest);
-  margin-bottom: 0.5rem;
-}
-
-.section-col-body {
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--text-dark);
-  line-height: 1.7;
-}
-
 /* ─────────────────────────── ABOUT PAGE ─────────────────────────── */
 /* ── Page layout ── */
 
@@ -641,22 +600,6 @@ body.page-fixed .site-header {
 /* Title */
 .about-title {
   cursor: crosshair;
-}
-
-/* Currently */
-.about-currently {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  font-weight: 300;
-}
-
-.currently-label {
-  font-family: 'Geist Mono', monospace;
-  font-size: var(--mono-size);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-medium);
-  margin-right: 0.25rem;
 }
 
 /* Photo — mobile: full width; desktop: fixed size */
@@ -727,306 +670,6 @@ body.page-fixed .site-header {
   flex-shrink: 0;
 }
 
-/* ── Career list ── */
-
-.career-section {
-  padding-bottom: 6rem;
-}
-
-.career-label {
-  font-family: 'Geist Mono', monospace;
-  font-size: var(--mono-size);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-light);
-  margin-bottom: 2rem;
-}
-
-.career-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border-bottom: 1px solid var(--border);
-  padding: 1rem;
-  cursor: crosshair;
-  transition: background 0.15s;
-}
-
-.career-row.career-open {
-  background: color-mix(in srgb, var(--accent) 5%, var(--bg));
-}
-
-.career-row.career-open .career-sub { color: var(--accent); opacity: 0.7; }
-.career-row.career-open .career-role { font-weight: 500; }
-
-.career-logo {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 4px;
-  background: var(--border);
-  flex-shrink: 0;
-}
-
-.career-text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.career-sub {
-  font-family: 'Geist Mono', monospace;
-  font-size: var(--mono-size);
-  text-transform: uppercase;
-  color: var(--text-light);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.career-role {
-  font-family: 'Manrope', sans-serif;
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--text-dark);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Tags hidden on mobile, shown on desktop */
-.career-tags {
-  display: none;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.3rem;
-  flex-shrink: 0;
-}
-
-/* ── Timeline (old, keeping for reference) ── */
-
-.timeline {
-  position: relative;
-  padding-bottom: 6rem;
-}
-
-.timeline-line {
-  position: absolute;
-  left: 0.5rem;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
-}
-
-.timeline-group-label {
-  font-family: 'Geist Mono', monospace;
-  font-size: var(--mono-size);
-  text-transform: uppercase;
-  color: var(--text-light);
-  letter-spacing: 0.08em;
-  margin-bottom: 2rem;
-  margin-left: 2.5rem;
-  padding-top: 3rem;
-}
-
-.timeline-group-label:first-child {
-  padding-top: 0;
-}
-
-/* ── Entry ── */
-
-.timeline-entry {
-  position: relative;
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.timeline-dot {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--border);
-  flex-shrink: 0;
-  margin-top: 0.25rem;
-  z-index: 1;
-}
-
-.timeline-dot--open {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
-}
-
-.timeline-body {
-  flex: 1;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.timeline-entry:last-child .timeline-body {
-  border-bottom: none;
-}
-
-.timeline-main {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-/* ── Logo ── */
-
-.timeline-logo {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.375rem;
-  background: var(--border);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  color: var(--text-medium);
-}
-
-.timeline-logo--open {
-  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* ── Info ── */
-
-.timeline-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.timeline-role {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-darkest);
-}
-
-.timeline-company {
-  font-size: 0.9rem;
-  color: var(--text-medium);
-}
-
-.timeline-period {
-  font-family: 'Geist Mono', monospace;
-  font-size: calc(var(--mono-size) * 0.85);
-  color: var(--text-light);
-  margin-top: 0.15rem;
-}
-
-.timeline-location {
-  font-size: 0.8rem;
-  color: var(--text-light);
-}
-
-.timeline-skills {
-  font-size: 0.8rem;
-  color: var(--text-medium);
-  margin-top: 0.25rem;
-  font-weight: 300;
-}
-
-/* ── Tags — hidden on mobile ── */
-
-.timeline-tags {
-  display: none;
-  flex-direction: column;
-  gap: 0.35rem;
-  align-items: flex-end;
-  flex-shrink: 0;
-}
-
-.tag {
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.6rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 0.2rem 0.5rem;
-  border-radius: 2rem;
-  white-space: nowrap;
-}
-
-.tag--edu     { background: #e8eef8; color: #4a6fa5; }
-.tag--agency  { background: #f0ece5; color: #7a6a58; }
-.tag--brand   { background: #f4ede2; color: #c05a2f; }
-.tag--freelance { background: #edf4ed; color: #4a7a4a; }
-.tag--startup { background: #f0e8f4; color: #7a4a9a; }
-.tag--corp    { background: #e8f4f0; color: #2a7a6a; }
-.tag--open    { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
-.tag--country { background: var(--bg); border: 1px solid var(--border); color: var(--text-medium); }
-.tag--date    { background: var(--bg); border: 1px solid var(--border); color: var(--text-light); }
-
-/* ── Sub-roles (nested) ── */
-
-.timeline-sub-roles {
-  margin-top: 1rem;
-  margin-left: 3.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.timeline-sub-role {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  padding-left: 1rem;
-  border-left: 2px solid var(--border);
-}
-
-.timeline-sub-role .timeline-role {
-  font-size: 0.875rem;
-}
-
-.timeline-sub-role .timeline-period {
-  font-family: 'Geist Mono', monospace;
-  font-size: calc(var(--mono-size) * 0.8);
-  color: var(--text-light);
-}
-
-.timeline-sub-role .timeline-skills {
-  font-size: 0.75rem;
-}
-
-/* ── Duration bar ── */
-
-.timeline-bar {
-  margin-top: 1rem;
-  margin-left: 3.5rem;
-  height: 2px;
-  background: var(--border);
-  border-radius: 1px;
-}
-
-.timeline-bar-fill {
-  height: 100%;
-  background: var(--text-medium);
-  border-radius: 1px;
-  min-width: 4px;
-}
-
-.timeline-entry--open .timeline-bar-fill {
-  background: var(--accent);
-}
-
-/* ── Open entry ── */
-
-.timeline-entry--open .timeline-body {
-  border-bottom: none;
-}
-
 /* ─────────────────────────── FUN PAGE ─────────────────────────── */
 /* ── Fun hero — single column, no photo ── */
 .fun-hero {
@@ -1088,7 +731,11 @@ body.page-fixed .site-header {
 
 .mobile-nav { display: none; }
 
-.site-footer { flex-direction: row; }
+.site-footer {
+  flex-direction: row;
+  margin: 0 calc(-1 * var(--page-x));
+  padding: 2rem var(--page-x);
+}
 
 .content-pane {
     padding: 4rem var(--page-x) 0;
@@ -1106,10 +753,6 @@ body.page-fixed .site-header {
 
   h3 {
     font-size: 2rem;
-  }
-
-  .content-title {
-    margin-bottom: 0.5rem;
   }
 
 .content-title,
@@ -1139,8 +782,6 @@ body.page-fixed .site-header {
 body.page-fixed .site-header {
     position: relative;
     top: auto;
-    z-index: 100;
-    background: var(--bg);
   }
 
 .mobile-back { display: none; }
@@ -1203,17 +844,8 @@ body.page-fixed .site-header {
     height: 9rem;
   }
 
-.career-tags { display: flex; }
-
-.timeline-logo {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-.timeline-tags { display: flex; }
-
 .fun-hero {
-    padding-top: clamp(0rem, 25dvh, 36rem);
+    padding-top: clamp(0rem, 24dvh, 36rem);
   }
 }
 
