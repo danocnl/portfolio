@@ -45,7 +45,8 @@
 
 /* Page load entrance (mirrors vt-fade-in, excludes header) */
 .content-area,
-.project-layout {
+.project-layout,
+main.about-page {
   animation: 280ms ease-out both vt-fade-in;
 }
 
