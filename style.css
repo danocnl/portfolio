@@ -85,8 +85,12 @@ body.page-fixed {
   font-size: var(--mono-size);
   text-transform: uppercase;
   color: var(--text-medium);
-  background: var(--bg);
-  transition: padding 0.3s ease;
+  background: transparent;
+  transition: padding 0.3s ease, background 0.3s ease;
+}
+
+.site-header.menu-open {
+  background: rgba(255, 255, 255, 0.75);
 }
 
 .header-name {
@@ -175,6 +179,11 @@ body.page-fixed {
   color: var(--text-medium);
   text-decoration: none;
   align-self: flex-start;
+  transition: opacity 150ms ease;
+}
+
+.mobile-nav--fading .mobile-nav-link {
+  opacity: 0;
 }
 
 .mobile-nav-link.active { color: var(--accent); }

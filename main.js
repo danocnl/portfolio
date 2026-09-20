@@ -6,6 +6,28 @@ function toggleMenu() {
   toggle.innerHTML = isOpen ? '&#x2715;' : '&#9776;';
 }
 
+// On mobile nav click: close menu first, then navigate after animation
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  link.addEventListener('click', e => {
+    const header = document.getElementById('site-header');
+    const toggle = document.getElementById('menu-toggle');
+    if (!header || !header.classList.contains('menu-open')) return;
+
+    e.preventDefault();
+    const href = link.getAttribute('href');
+    const nav = header.querySelector('.mobile-nav');
+
+    // Fade links out, then collapse, then navigate
+    if (nav) nav.classList.add('mobile-nav--fading');
+
+    setTimeout(() => {
+      header.classList.remove('menu-open');
+      if (toggle) toggle.innerHTML = '&#9776;';
+      setTimeout(() => { window.location.href = href; }, 350);
+    }, 150);
+  });
+});
+
 const noiseChars = '!@#$%&*·&<>+-=~#';
 
 function scramble(element, newText, duration) {
